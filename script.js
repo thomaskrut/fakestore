@@ -9,6 +9,8 @@ function buyProduct(product) {
     // anting spara i localStorage och ladda order.html
     // eller ladda order.html?productid=
 
+    // görs om till addToCart för vg-delen
+
     console.log(product);
 }
 
