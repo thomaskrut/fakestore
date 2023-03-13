@@ -26,3 +26,10 @@ p.price {
 p.category {
     font-size: x-small;
 }
+
+@media screen and (max-width: 800px) {
+
+    img {
+        max-width: 70px;
+    }
+}
