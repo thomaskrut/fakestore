@@ -1,22 +1,24 @@
 async function loadAllProducts() {
     let response = await fetch('https://fakestoreapi.com/products');
     let products = await response.json();
-    populateTable(products);
+    populateTable(products, '#products-table');
+}
+
+function loadCart() {
+    const productInCart = JSON.parse(localStorage.getItem("product"));
+    populateTable([productInCart],'#cart-table',false);
 }
 
 function buyProduct(product) {
 
-    // anting spara i localStorage och ladda order.html
-    // eller ladda order.html?productid=
-
     // görs om till addToCart för vg-delen
-
-    console.log(product);
+    localStorage.setItem("product", JSON.stringify(product));
+    window.location = 'order.html';
 }
 
-function populateTable(products) {
+function populateTable(products,selector,showBuyButton = true) {
 
-    const productsTable = document.querySelector('#products-table')
+    const productsTable = document.querySelector(selector);
 
     products.forEach(p => {
         const newTableRow = document.createElement("tr");
@@ -58,11 +60,13 @@ function populateTable(products) {
         price.textContent = "$" + p.price.toFixed(2);
         descriptionCell.appendChild(price);
 
-        const buyButton = document.createElement("button");
-        buyButton.className = "btn btn-success";
-        buyButton.textContent = "Buy!";
-        descriptionCell.appendChild(buyButton);
-        buyButton.addEventListener("mousedown", () => buyProduct(p));
+        if (showBuyButton) {
+            const buyButton = document.createElement("button");
+            buyButton.className = "btn btn-success";
+            buyButton.textContent = "Buy!";
+            descriptionCell.appendChild(buyButton);
+            buyButton.addEventListener("mousedown", () => buyProduct(p));
+        }
 
         const productImage = document.createElement("img");
         productImage.src = p.image;
@@ -72,11 +76,19 @@ function populateTable(products) {
         productsTable.appendChild(newTableRow);
         newTableRow.appendChild(imageCell);
         newTableRow.appendChild(descriptionCell);
+
     });
 
 }
 
-loadAllProducts();
+if (document.body.contains(document.getElementById('products-table'))) {
+    loadAllProducts();
+}
+
+if (document.body.contains(document.getElementById('cart-table'))) {
+    loadCart();
+}
+
 
 
 
