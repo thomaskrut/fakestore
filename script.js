@@ -60,7 +60,7 @@ function populateTable(products) {
 
         const buyButton = document.createElement("button");
         buyButton.className = "btn btn-success";
-        buyButton.textContent = "Buy";
+        buyButton.textContent = "Buy!";
         descriptionCell.appendChild(buyButton);
         buyButton.addEventListener("mousedown", () => buyProduct(p));
 
