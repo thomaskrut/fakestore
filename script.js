@@ -25,8 +25,6 @@ function populateTable(products) {
 
         const descriptionCell = document.createElement("td");
 
-        const productImage = document.createElement("img");
-
         const title = document.createElement("p");
         title.className = "title";
         title.textContent = p.title;
@@ -66,6 +64,7 @@ function populateTable(products) {
         descriptionCell.appendChild(buyButton);
         buyButton.addEventListener("mousedown", () => buyProduct(p));
 
+        const productImage = document.createElement("img");
         productImage.src = p.image;
         productImage.className="product";
         imageCell.appendChild(productImage);
