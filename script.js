@@ -5,10 +5,10 @@ async function loadAllProducts() {
 }
 
 function buyProduct(product) {
-    
+
     // anting spara i localStorage och ladda order.html
     // eller ladda order.html?productid=
-    
+
     console.log(product);
 }
 
@@ -39,22 +39,35 @@ function populateTable(products) {
         description.className = "description";
         description.textContent = p.description;
         descriptionCell.appendChild(description);
-        
+
+        const starImage = document.createElement("img");
+        starImage.src = "stars.png";
+        starImage.style.height = "35px"
+        starImage.style.width = p.rating.rate * 30 + "px";
+        starImage.style.objectPosition = "0% 0";
+        starImage.style.objectFit = "none";
+        descriptionCell.appendChild(starImage);
+
+        const rating = document.createElement("p");
+        rating.className = "rating";
+        rating.textContent = p.rating.rate + " stars (" + p.rating.count + " votes)";
+        descriptionCell.appendChild(rating);
+
         const price = document.createElement("p");
         price.className = "price";
-        price.textContent = "$"+ p.price.toFixed(2);
+        price.textContent = "$" + p.price.toFixed(2);
         descriptionCell.appendChild(price);
-        
+
         const buyButton = document.createElement("button");
         buyButton.className = "btn btn-success";
         buyButton.textContent = "Buy";
         descriptionCell.appendChild(buyButton);
         buyButton.addEventListener("mousedown", () => buyProduct(p));
-        
+
         productImage.src = p.image;
+        productImage.className="product";
         imageCell.appendChild(productImage);
-        
-        
+
         productsTable.appendChild(newTableRow);
         newTableRow.appendChild(imageCell);
         newTableRow.appendChild(descriptionCell);

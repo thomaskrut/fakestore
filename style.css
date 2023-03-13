@@ -2,10 +2,11 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-img {
+img.product {
     max-height: 170px;
     max-width: 150px;
 }
+
 
 td {
     padding: 30px;
@@ -27,9 +28,13 @@ p.category {
     font-size: x-small;
 }
 
+p.rating {
+    font-size: x-small;
+}
+
 @media screen and (max-width: 800px) {
 
-    img {
+    img.product {
         max-width: 70px;
     }
 }
