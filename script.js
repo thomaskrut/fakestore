@@ -4,19 +4,20 @@ async function loadAllProducts() {
     populateTable(products, '#products-table');
 }
 
+const saveInLocalStorage = (name, object) => localStorage.setItem(name, JSON.stringify(object));
+const loadFromLocalStorage = (name) => JSON.parse(localStorage.getItem(name));
+
 function loadCart() {
-    const productInCart = JSON.parse(localStorage.getItem("product"));
-    populateTable([productInCart],'#cart-table',false);
+    const productInCart = loadFromLocalStorage('product')
+    populateTable([productInCart], '#cart-table', false);
 }
 
 function buyProduct(product) {
-
-    // görs om till addToCart för vg-delen
-    localStorage.setItem("product", JSON.stringify(product));
+    saveInLocalStorage('product', product)
     window.location = 'order.html';
 }
 
-function populateTable(products,selector,showBuyButton = true) {
+function populateTable(products, selector, showBuyButton = true) {
 
     const productsTable = document.querySelector(selector);
 
@@ -70,7 +71,7 @@ function populateTable(products,selector,showBuyButton = true) {
 
         const productImage = document.createElement("img");
         productImage.src = p.image;
-        productImage.className="product";
+        productImage.className = "product";
         imageCell.appendChild(productImage);
 
         productsTable.appendChild(newTableRow);
@@ -89,7 +90,60 @@ if (document.body.contains(document.getElementById('cart-table'))) {
     loadCart();
 }
 
+const validationPatterns = {
+    email: /^(?=.{1,50}$)[^@]+@[^@]+$/i,
+    phone: /^(?=.{1,50}$)(\d|-|\(|\))+$/i,
+    'full-name': /^.{2,50}$/i,
+    'street-and-number': /^.{1,50}$/i,
+    'postal-code': /^[0-9]{3} [0-9]{2}$/i,
+    city: /^.{2,50}$/i,
+};
 
+
+const markInputAsValid = (input) => { input.classList.add('is-valid'); input.classList.remove('is-invalid') }
+const markInputAsInValid = (input) => { input.classList.add('is-invalid'); input.classList.remove('is-valid') }
+
+function validateSingleInput(input) {
+    var validationPattern = validationPatterns[input.id]
+    var inputIsValid = validationPattern.test(input.value);
+
+    if (inputIsValid) {
+        markInputAsValid(input)
+    } else {
+        markInputAsInValid(input)
+    }
+}
+
+const getFormInputs = () => Array.from(document.querySelectorAll('.form-input'));
+const validateAllInputs = () => getFormInputs().forEach((input) => validateSingleInput(input))
+const allInputsAreValid = () => getFormInputs().every((input) => input.classList.contains('is-valid'));
+const getFormsToValidate = () => Array.from(document.querySelectorAll('.needs-validation'))
+const preventSubmission = (event) => { event.preventDefault(); event.stopPropagation() }
+
+function getObjectFromInputs() {
+    var inputs = getFormInputs();
+    var inputsMap = inputs.map((input) => [input.id, input.value])
+
+    return Object.fromEntries(inputsMap);
+}
+
+(function () {
+    getFormsToValidate().forEach((form) => {
+        form.addEventListener('submit', (event) => {
+            validateAllInputs();
+            if (allInputsAreValid()) {
+                saveInLocalStorage(form.id, getObjectFromInputs())
+            } else {
+                preventSubmission(event);
+            }
+
+        });
+
+        form.addEventListener('change', (event) => {
+            validateSingleInput(event.target, validationPatterns[event.target.attributes.id.value]);
+        });
+    })
+})()
 
 
 

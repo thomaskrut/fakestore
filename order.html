@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-   
-    <link  href="style.css" rel="stylesheet">
+
+    <link href="style.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fakestore</title>
 </head>
+
 <body class="container">
 
     <div class="container p-5 my-5 bg-dark text-white text-center">FAKE STORE</div>
@@ -15,6 +17,56 @@
     <table id="cart-table">
 
     </table>
+
+    <form class="row g-3 needs-validation" id="customer-details" action="/thankyou.html" novalidate>
+        <div class="col-md-2">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control form-input" id="email" value="" required>
+            <div class="invalid-feedback">
+                Email must contain @ and be no more than 50 characters.
+            </div>
+        </div>
+        <div class="col-md-2">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="text" class="form-control form-input" id="phone" value="" required>
+            <div class="invalid-feedback">
+                Phone can only contain digits, dashes and parentheses. It must also be no more than 50 characters.
+            </div>
+        </div>
+        <div class="col-md-2">
+            <label for="full-name" class="form-label">Full name</label>
+            <input type="text" class="form-control form-input" id="full-name" value="" required>
+            <div class="invalid-feedback">
+                Name must be 2-50 characters.
+            </div>
+        </div>
+        <div class="col-md-2">
+            <label for="street-and-number" class="form-label">Street and number</label>
+            <input type="text" class="form-control form-input" id="street-and-number" value="" required>
+            <div class="invalid-feedback">
+                Street and number must be 1-50 characters.
+            </div>
+        </div>
+        <div class="col-md-2">
+            <label for="postal-code" class="form-label">Postal code</label>
+            <input type="text" class="form-control form-input" id="postal-code" required>
+            <div class="invalid-feedback">
+                Postal code must be digits in this format: 000 00.
+            </div>
+        </div>
+        <div class="col-md-2">
+            <label for="city" class="form-label">City</label>
+            <input type="text" class="form-control form-input" id="city" required>
+            <div class="invalid-feedback">
+                City must be 1-50 characters.
+            </div>
+        </div>
+        <div class="col-md-12">
+            <button class="btn btn-primary text-nowrap" type="submit" id="orderButton">Submit order</button>
+        </div>
+    </form>
+
     <script src="script.js"></script>
 </body>
+
 </html>
