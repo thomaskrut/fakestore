@@ -7,9 +7,12 @@ img.product {
     max-width: 150px;
 }
 
-
 td {
     padding: 30px;
+}
+
+#customer-details-table td {
+    padding: 5px;
 }
 
 p.title {

@@ -23,7 +23,9 @@ function populateTwoColTable(object, selector) {
     Object.keys(object).forEach((key) => {
         const tableRow = document.createElement("tr")
         const tableCell1 = document.createElement("td")
+       
         const tableCell2 = document.createElement("td")
+       
         addParagraphToCell(key + '-key', (key.charAt(0).toUpperCase() + key.slice(1) + ':').replace(/-/g, " "), tableCell1)
         addParagraphToCell(key + '-value', object[key], tableCell2)
         tableRow.appendChild(tableCell1)
