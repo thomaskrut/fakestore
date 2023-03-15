@@ -12,6 +12,33 @@ function loadCart() {
     populateTable([productInCart], '#cart-table', false);
 }
 
+function loadCustomerDetails() {
+    const customerDetails = loadFromLocalStorage('customer-details')
+    populateTwoColTable(customerDetails, '#customer-details-table')
+}
+
+function populateTwoColTable(object, selector) {
+    const table = document.querySelector(selector)
+    
+    Object.keys(object).forEach((key) => {
+        const tableRow = document.createElement("tr")
+        const tableCell1 = document.createElement("td")
+        const tableCell2 = document.createElement("td")
+        addParagraphToCell(key + '-key', (key.charAt(0).toUpperCase() + key.slice(1) + ':').replace(/-/g, " "), tableCell1)
+        addParagraphToCell(key + '-value', object[key], tableCell2)
+        tableRow.appendChild(tableCell1)
+        tableRow.appendChild(tableCell2)
+        table.appendChild(tableRow)
+      });
+}
+
+function addParagraphToCell(className, textContent, cell) {
+    const p = document.createElement("p");
+        p.className = className;
+        p.textContent = textContent;
+        cell.appendChild(p);
+}
+
 function buyProduct(product) {
     saveInLocalStorage('product', product)
     window.location = 'order.html';
@@ -88,6 +115,10 @@ if (document.body.contains(document.getElementById('products-table'))) {
 
 if (document.body.contains(document.getElementById('cart-table'))) {
     loadCart();
+}
+
+if (document.body.contains(document.getElementById('customer-details-table'))) {
+    loadCustomerDetails();
 }
 
 const validationPatterns = {
