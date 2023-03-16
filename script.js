@@ -23,9 +23,7 @@ function populateTwoColTable(object, selector) {
     Object.keys(object).forEach((key) => {
         const tableRow = document.createElement("tr")
         const tableCell1 = document.createElement("td")
-       
-        const tableCell2 = document.createElement("td")
-       
+        const tableCell2 = document.createElement("td")    
         addParagraphToCell(key + '-key', (key.charAt(0).toUpperCase() + key.slice(1) + ':').replace(/-/g, " "), tableCell1)
         addParagraphToCell(key + '-value', object[key], tableCell2)
         tableRow.appendChild(tableCell1)
@@ -57,21 +55,10 @@ function populateTable(products, selector, showBuyButton = true) {
 
         const descriptionCell = document.createElement("td");
 
-        const title = document.createElement("p");
-        title.className = "title";
-        title.textContent = p.title;
-        descriptionCell.appendChild(title);
-
-        const category = document.createElement("p");
-        category.className = "category";
-        category.textContent = p.category;
-        descriptionCell.appendChild(category);
-
-        const description = document.createElement("p");
-        description.className = "description";
-        description.textContent = p.description;
-        descriptionCell.appendChild(description);
-
+        addParagraphToCell('title', p.title, descriptionCell);
+        addParagraphToCell('category', p.category, descriptionCell);
+        addParagraphToCell('description', p.description, descriptionCell);
+      
         const starImage = document.createElement("img");
         starImage.src = "stars.png";
         starImage.style.height = "35px"
@@ -80,15 +67,8 @@ function populateTable(products, selector, showBuyButton = true) {
         starImage.style.objectFit = "none";
         descriptionCell.appendChild(starImage);
 
-        const rating = document.createElement("p");
-        rating.className = "rating";
-        rating.textContent = p.rating.rate + " stars (" + p.rating.count + " votes)";
-        descriptionCell.appendChild(rating);
-
-        const price = document.createElement("p");
-        price.className = "price";
-        price.textContent = "$" + p.price.toFixed(2);
-        descriptionCell.appendChild(price);
+        addParagraphToCell('rating', p.rating.rate + " stars (" + p.rating.count + " votes)", descriptionCell);
+        addParagraphToCell('price', "$" + p.price.toFixed(2), descriptionCell);
 
         if (showBuyButton) {
             const buyButton = document.createElement("button");
@@ -138,13 +118,7 @@ const markInputAsInValid = (input) => { input.classList.add('is-invalid'); input
 
 function validateSingleInput(input) {
     var validationPattern = validationPatterns[input.id]
-    var inputIsValid = validationPattern.test(input.value);
-
-    if (inputIsValid) {
-        markInputAsValid(input)
-    } else {
-        markInputAsInValid(input)
-    }
+    validationPattern.test(input.value) ? markInputAsValid(input) : markInputAsInValid(input);
 }
 
 const getFormInputs = () => Array.from(document.querySelectorAll('.form-input'));
