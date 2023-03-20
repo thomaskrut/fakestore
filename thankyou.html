@@ -24,12 +24,51 @@
     <div class="row">
         <div class="col-md-8">
             <h3>Ordered item</h3>
-            <table id="cart-table"></table>
+            <table id="products-in-cart-table">
+                <tr class="product-table-row hidden">
+                    <td class="product-table-image-cell">
+                        <img src="" alt="" class="product-table-image">
+                    </td>
+                    <td class="product-table-description-cell">
+                        <p class="title"></p>
+                        <p class="category"></p>
+                        <p class="description"></p>
+                        <div class="rating">
+                            <div class="rating-upper">
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                            </div>
+                            <div class="rating-lower">
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                                <span>★</span>
+                            </div>
+                        </div>
+                        <p class="rating-text"></p>
+                        <p class="price"></p>
+                        <button class="btn btn-success add-to-cart-button">Buy!</button>
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <div class="col-md-4">
             <h3>Your details</h3>
-            <table class="customer-details-table" id="customer-details-table"></table>
+            <table id="customer-details-table">
+                <tr class="customer-details-table-row hidden">
+                    <td class="customer-details-table-property-name-cell">
+                        <p class="customer-details-table-property-name font-weight-bold"></p>
+                    </td>
+                    <td class="customer-details-table-property-value-cell">
+                        <p class="customer-details-table-property-value"></p>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
     <script src="script.js"></script>

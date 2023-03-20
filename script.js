@@ -1,156 +1,90 @@
-async function loadAllProducts() {
-    let response = await fetch('https://fakestoreapi.com/products');
-    let products = await response.json();
-    populateTable(products, '#products-table');
+async function getProductsFromAPI() {
+    return (await fetch('https://fakestoreapi.com/products')).json();
 }
 
 const saveInLocalStorage = (name, object) => localStorage.setItem(name, JSON.stringify(object));
 const loadFromLocalStorage = (name) => JSON.parse(localStorage.getItem(name));
 
-function loadCart() {
-    const productInCart = loadFromLocalStorage('product')
-    populateTable([productInCart], '#cart-table', false);
-}
+function populateCustomerDetailsTable(customerDetails, customerDetailsTable) {
+    Object.keys(customerDetails).forEach((key) => {
+        const row = document.querySelector('.customer-details-table-row').cloneNode(true)
+        const propertyNameCell = row.querySelector('.customer-details-table-property-name-cell')
+        const propertyValueCell = row.querySelector('.customer-details-table-property-value-cell')
 
-function loadCustomerDetails() {
-    const customerDetails = loadFromLocalStorage('customer-details')
-    populateTwoColTable(customerDetails, '#customer-details-table')
-}
+        propertyNameCell.querySelector('.customer-details-table-property-name').innerHTML = (key.charAt(0).toUpperCase() + key.slice(1) + ':').replace(/-/g, " ")
+        propertyValueCell.querySelector('.customer-details-table-property-value').innerHTML = customerDetails[key]
 
-function populateTwoColTable(object, selector) {
-    const table = document.querySelector(selector)
-    
-    Object.keys(object).forEach((key) => {
-        const tableRow = document.createElement("tr")
-        const tableCell1 = document.createElement("td")
-        const tableCell2 = document.createElement("td")    
-        addParagraphToCell(key + '-key', (key.charAt(0).toUpperCase() + key.slice(1) + ':').replace(/-/g, " "), tableCell1)
-        addParagraphToCell(key + '-value', object[key], tableCell2)
-        tableRow.appendChild(tableCell1)
-        tableRow.appendChild(tableCell2)
-        table.appendChild(tableRow)
+        row.classList.remove('hidden')
+        customerDetailsTable.appendChild(row)
       });
 }
 
-function addParagraphToCell(className, textContent, cell) {
-    const p = document.createElement("p");
-        p.className = className;
-        p.textContent = textContent;
-        cell.appendChild(p);
-}
-
 function buyProduct(product) {
-    saveInLocalStorage('product', product)
+    saveInLocalStorage('product', product);
     window.location = 'order.html';
 }
 
-function populateTable(products, selector, showBuyButton = true) {
-
-    const productsTable = document.querySelector(selector);
-
+function populateProductTable(products, productTable, showBuyButton = true) {
     products.forEach(p => {
-        const newTableRow = document.createElement("tr");
+        const row = document.querySelector('.product-table-row').cloneNode(true)
+        const imageCell = row.querySelector('.product-table-image-cell')
+        const descriptionCell = row.querySelector('.product-table-description-cell')
 
-        const imageCell = document.createElement("td");
+        imageCell.querySelector('.product-table-image').src = p.image
+        imageCell.querySelector('.product-table-image').alt = 'Image of ' + p.title
 
-        const descriptionCell = document.createElement("td");
-
-        addParagraphToCell('title', p.title, descriptionCell);
-        addParagraphToCell('category', p.category, descriptionCell);
-        addParagraphToCell('description', p.description, descriptionCell);
-      
-        const starImage = document.createElement("img");
-        starImage.src = "stars.png";
-        starImage.style.height = "35px"
-        starImage.style.width = p.rating.rate * 30 + "px";
-        starImage.style.objectPosition = "0% 0";
-        starImage.style.objectFit = "none";
-        descriptionCell.appendChild(starImage);
-
-        addParagraphToCell('rating', p.rating.rate + " stars (" + p.rating.count + " votes)", descriptionCell);
-        addParagraphToCell('price', "$" + p.price.toFixed(2), descriptionCell);
+        descriptionCell.querySelector('.title').innerHTML = p.title
+        descriptionCell.querySelector('.category').innerHTML = p.category
+        descriptionCell.querySelector('.description').innerHTML = p.description
+        descriptionCell.querySelector('.rating-upper').style.width = p.rating.rate / 5 * 100 + "%"
+        descriptionCell.querySelector('.rating-text').innerHTML = p.rating.rate + " stars (" + p.rating.count + " votes)"
+        descriptionCell.querySelector('.price').innerHTML = "$" + p.price.toFixed(2)
 
         if (showBuyButton) {
-            const buyButton = document.createElement("button");
-            buyButton.className = "btn btn-success";
-            buyButton.textContent = "Buy!";
-            descriptionCell.appendChild(buyButton);
-            buyButton.addEventListener("mousedown", () => buyProduct(p));
+            descriptionCell.querySelector('.add-to-cart-button').addEventListener("mousedown", () => buyProduct(p))
+        } else {
+            descriptionCell.querySelector('.add-to-cart-button').classList.add('hidden')
         }
-
-        const productImage = document.createElement("img");
-        productImage.src = p.image;
-        productImage.className = "product";
-        imageCell.appendChild(productImage);
-
-        productsTable.appendChild(newTableRow);
-        newTableRow.appendChild(imageCell);
-        newTableRow.appendChild(descriptionCell);
+        
+        row.classList.remove('hidden')
+        productTable.appendChild(row)
 
     });
 
 }
 
-if (document.body.contains(document.getElementById('products-table'))) {
-    loadAllProducts();
-}
-
-if (document.body.contains(document.getElementById('cart-table'))) {
-    loadCart();
-}
-
-if (document.body.contains(document.getElementById('customer-details-table'))) {
-    loadCustomerDetails();
-}
-
 const validationPatterns = {
-    email: /^(?=.{1,50}$)[^@]+@[^@]+$/i,
-    phone: /^(?=.{1,50}$)(\d|-|\(|\))+$/i,
+    'email': /^(?=.{1,50}$)[^@]+@[^@]+$/i,
+    'phone': /^(?=.{1,50}$)(\d|-|\(|\))+$/i,
     'full-name': /^.{2,50}$/i,
     'street-and-number': /^.{1,50}$/i,
     'postal-code': /^[0-9]{3} [0-9]{2}$/i,
-    city: /^.{2,50}$/i,
+    'city': /^.{2,50}$/i,
 };
 
+(function initForms() {
+    const markInputAsValid = (input) => { input.classList.add('is-valid'); input.classList.remove('is-invalid'); return true }
+    const markInputAsInValid = (input) => { input.classList.add('is-invalid'); input.classList.remove('is-valid'); return false }
+    const validateSingleInput = (input) => validationPatterns[input.id].test(input.value) ? markInputAsValid(input) : markInputAsInValid(input)
+    const getFormInputs = () => Array.from(document.querySelectorAll('.form-input'));
+    const allInputsAreValid = () => getFormInputs().every((input) => validateSingleInput(input))
+    const getInputsAsObject = () => Object.fromEntries(getFormInputs().map((input) => [input.id, input.value]))
+    const forms = Array.from(document.querySelectorAll('.needs-validation'));
 
-const markInputAsValid = (input) => { input.classList.add('is-valid'); input.classList.remove('is-invalid') }
-const markInputAsInValid = (input) => { input.classList.add('is-invalid'); input.classList.remove('is-valid') }
-
-function validateSingleInput(input) {
-    var validationPattern = validationPatterns[input.id]
-    validationPattern.test(input.value) ? markInputAsValid(input) : markInputAsInValid(input);
-}
-
-const getFormInputs = () => Array.from(document.querySelectorAll('.form-input'));
-const validateAllInputs = () => getFormInputs().forEach((input) => validateSingleInput(input))
-const allInputsAreValid = () => getFormInputs().every((input) => input.classList.contains('is-valid'));
-const getFormsToValidate = () => Array.from(document.querySelectorAll('.needs-validation'))
-const preventSubmission = (event) => { event.preventDefault(); event.stopPropagation() }
-
-function getObjectFromInputs() {
-    var inputs = getFormInputs();
-    var inputsMap = inputs.map((input) => [input.id, input.value])
-
-    return Object.fromEntries(inputsMap);
-}
-
-(function () {
-    getFormsToValidate().forEach((form) => {
-        form.addEventListener('submit', (event) => {
-            validateAllInputs();
-            if (allInputsAreValid()) {
-                saveInLocalStorage(form.id, getObjectFromInputs())
-            } else {
-                preventSubmission(event);
-            }
-
-        });
-
-        form.addEventListener('change', (event) => {
-            validateSingleInput(event.target, validationPatterns[event.target.attributes.id.value]);
-        });
+    forms.forEach((form) => {
+        form.addEventListener('submit', (event) => allInputsAreValid() ? saveInLocalStorage(form.id, getInputsAsObject()) : event.preventDefault());
+        form.addEventListener('change', (event) => validateSingleInput(event.target, validationPatterns[event.target.attributes.id.value]));
     })
-})()
+})();
 
+(function initTables() {
+    const tables = Array.from(document.querySelectorAll('table'))
 
-
+    tables.forEach((table) => {
+        switch(table.id) {
+            case 'product-table': getProductsFromAPI().then((products) => populateProductTable(products, table)); break;
+            case 'products-in-cart-table': populateProductTable([loadFromLocalStorage('product')], table, false); break;
+            case 'customer-details-table': populateCustomerDetailsTable(loadFromLocalStorage('customer-details'), table); break;
+        }
+    })
+})();

@@ -21,8 +21,36 @@
         </nav>
     </div>
 
-    <table id="cart-table">
-
+    <table id="products-in-cart-table">
+        <tr class="product-table-row hidden">
+            <td class="product-table-image-cell">
+                <img src="" alt="" class="product-table-image">
+            </td>
+            <td class="product-table-description-cell">
+                <p class="title"></p>
+                <p class="category"></p>
+                <p class="description"></p>
+                <div class="rating">
+                    <div class="rating-upper">
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                    </div>
+                    <div class="rating-lower">
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                    </div>
+                </div>
+                <p class="rating-text"></p>
+                <p class="price"></p>
+                <button class="btn btn-success add-to-cart-button">Buy!</button>
+            </td>
+        </tr>
     </table>
 
     <form class="row g-3 needs-validation" id="customer-details" action="/thankyou.html" novalidate>
