@@ -78,10 +78,6 @@ p.category {
     z-index: 0;
   }
 
-.hidden {
-    display: none;
-}
-
 p.rating-text {
     font-size: x-small;
 }

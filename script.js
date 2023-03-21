@@ -8,13 +8,11 @@ const loadFromLocalStorage = (name) => JSON.parse(localStorage.getItem(name));
 function populateCustomerDetailsTable(customerDetails, customerDetailsTable) {
     Object.keys(customerDetails).forEach((key) => {
         const row = document.querySelector('.customer-details-table-row').cloneNode(true)
-        const propertyNameCell = row.querySelector('.customer-details-table-property-name-cell')
-        const propertyValueCell = row.querySelector('.customer-details-table-property-value-cell')
 
-        propertyNameCell.querySelector('.customer-details-table-property-name').innerHTML = (key.charAt(0).toUpperCase() + key.slice(1) + ':').replace(/-/g, " ")
-        propertyValueCell.querySelector('.customer-details-table-property-value').innerHTML = customerDetails[key]
+        row.querySelector('.customer-details-table-property-name').innerHTML = (key.charAt(0).toUpperCase() + key.slice(1) + ':').replace(/-/g, " ")
+        row.querySelector('.customer-details-table-property-value').innerHTML = customerDetails[key]
 
-        row.classList.remove('hidden')
+        row.classList.remove('d-none')
         customerDetailsTable.appendChild(row)
       });
 }
@@ -27,26 +25,23 @@ function buyProduct(product) {
 function populateProductTable(products, productTable, showBuyButton = true) {
     products.forEach(p => {
         const row = document.querySelector('.product-table-row').cloneNode(true)
-        const imageCell = row.querySelector('.product-table-image-cell')
-        const descriptionCell = row.querySelector('.product-table-description-cell')
 
-        imageCell.querySelector('.product-table-image').src = p.image
-        imageCell.querySelector('.product-table-image').alt = 'Image of ' + p.title
-
-        descriptionCell.querySelector('.title').innerHTML = p.title
-        descriptionCell.querySelector('.category').innerHTML = p.category
-        descriptionCell.querySelector('.description').innerHTML = p.description
-        descriptionCell.querySelector('.rating-upper').style.width = p.rating.rate / 5 * 100 + "%"
-        descriptionCell.querySelector('.rating-text').innerHTML = p.rating.rate + " stars (" + p.rating.count + " votes)"
-        descriptionCell.querySelector('.price').innerHTML = "$" + p.price.toFixed(2)
+        row.querySelector('.product-table-image').src = p.image
+        row.querySelector('.product-table-image').alt = 'Image of ' + p.title
+        row.querySelector('.title').innerHTML = p.title
+        row.querySelector('.category').innerHTML = p.category
+        row.querySelector('.description').innerHTML = p.description
+        row.querySelector('.rating-upper').style.width = p.rating.rate / 5 * 100 + "%"
+        row.querySelector('.rating-text').innerHTML = p.rating.rate + " stars (" + p.rating.count + " votes)"
+        row.querySelector('.price').innerHTML = "$" + p.price.toFixed(2)
 
         if (showBuyButton) {
-            descriptionCell.querySelector('.add-to-cart-button').addEventListener("mousedown", () => buyProduct(p))
+            row.querySelector('.add-to-cart-button').addEventListener("mousedown", () => buyProduct(p))
         } else {
-            descriptionCell.querySelector('.add-to-cart-button').classList.add('hidden')
+            row.querySelector('.add-to-cart-button').classList.add('d-none')
         }
         
-        row.classList.remove('hidden')
+        row.classList.remove('d-none')
         productTable.appendChild(row)
 
     });
