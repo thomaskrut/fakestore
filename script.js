@@ -1,5 +1,5 @@
 async function getProductsFromAPI() {
-    return (await fetch('https://fakestoreapi.com/products')).json();
+    return (await fetch('https://mocki.io/v1/a99e6cf4-1e5a-4b0e-bc57-6c651f0f09cd')).json();
 }
 
 const saveInLocalStorage = (name, object) => localStorage.setItem(name, JSON.stringify(object));
@@ -24,7 +24,7 @@ function buyProduct(product) {
 
 function populateProductTable(products, productTable, showBuyButton = true) {
     products.forEach(p => {
-        const row = document.querySelector('.product-table-row').cloneNode(true)
+        const row = document.querySelector('.product-table-description-cell').cloneNode(true)
 
         row.querySelector('.product-table-image').src = p.image
         row.querySelector('.product-table-image').alt = 'Image of ' + p.title
@@ -73,11 +73,11 @@ const validationPatterns = {
 })();
 
 (function initTables() {
-    const tables = Array.from(document.querySelectorAll('table'))
+    const divs = Array.from(document.querySelectorAll('div'))
 
-    tables.forEach((table) => {
-        switch(table.id) {
-            case 'product-table': getProductsFromAPI().then((products) => populateProductTable(products, table)); break;
+    divs.forEach((div) => {
+        switch(div.id) {
+            case 'product-table': getProductsFromAPI().then((products) => populateProductTable(products, div)); break;
             case 'products-in-cart-table': populateProductTable([loadFromLocalStorage('product')], table, false); break;
             case 'customer-details-table': populateCustomerDetailsTable(loadFromLocalStorage('customer-details'), table); break;
         }

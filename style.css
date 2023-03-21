@@ -7,12 +7,16 @@ div a {
     color: white;
 }
 
+.row {
+    height: 300px;
+}
+
 div a:hover {
     color:bisque;
 }
 
 .product-table-image {
-    max-height: 250px;
+    max-height: 150px;
     max-width: 150px;
 }
 

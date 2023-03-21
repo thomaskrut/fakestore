@@ -22,12 +22,12 @@
         </nav>
     </div>
 
-    <table id="product-table">
-        <tr class="product-table-row d-none">
-            <td class="product-table-image-cell">
-                <img src="" alt="" class="product-table-image">
-            </td>
-            <td class="product-table-description-cell">
+    <div class="container">
+        <div class="row row-cols-4 product-table-row" id="product-table">
+            <div class="col product-table-description-cell d-none">
+                <p class="product-table-image-cell">
+                    <img src="" alt="" class="product-table-image">
+                </p>
                 <p class="title"></p>
                 <p class="category"></p>
                 <p class="description"></p>
@@ -50,9 +50,11 @@
                 <p class="rating-text"></p>
                 <p class="price"></p>
                 <button class="btn btn-success add-to-cart-button">Buy!</button>
-            </td>
-        </tr>
-    </table>
+            </div>
+        </div>
+    </div>
+
+  
     <script src="script.js"></script>
 </body>
 
