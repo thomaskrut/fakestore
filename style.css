@@ -15,7 +15,10 @@ div a:hover {
     color:bisque;
 }
 
-
+.product-table-image {
+   max-width: 200px;
+   align-self: center;
+}
 
 td {
     padding: 30px;
