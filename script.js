@@ -24,16 +24,23 @@ function buyProduct(product) {
 
 function populateProductTable(products, productTable, showBuyButton = true) {
     products.forEach(p => {
-        const row = document.querySelector('.product-table-description-cell').cloneNode(true)
+        const row = document.querySelector('.product-col').cloneNode(true)
 
         row.querySelector('.product-table-image').src = p.image
         row.querySelector('.product-table-image').alt = 'Image of ' + p.title
         row.querySelector('.card-title').innerHTML = p.title
         row.querySelector('.category').innerHTML = p.category
         row.querySelector('.description').innerHTML = p.description
+        row.querySelector('.description').addEventListener('click', (event) => {
+            event.target.classList.contains('text-truncate') ? event.target.classList.remove('text-truncate') : event.target.classList.add('text-truncate');
+        });
+
+       
         row.querySelector('.rating-upper').style.width = p.rating.rate / 5 * 100 + "%"
         row.querySelector('.rating-text').innerHTML = p.rating.rate + " stars (" + p.rating.count + " votes)"
         row.querySelector('.price').innerHTML = "$" + p.price.toFixed(2)
+
+       
 
         if (showBuyButton) {
             row.querySelector('.add-to-cart-button').addEventListener("mousedown", () => buyProduct(p))
@@ -44,7 +51,6 @@ function populateProductTable(products, productTable, showBuyButton = true) {
         row.classList.remove('d-none')
         productTable.appendChild(row)
         
-
     });
 
 }

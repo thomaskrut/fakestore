@@ -1,7 +1,3 @@
-.container {
-    background-color: blanchedalmond;
-}
-
 div a {
     text-decoration: none;
     color: white;
@@ -21,20 +17,9 @@ div a:hover {
    align-self: center;
 }
 
-td {
-    padding: 30px;
-}
-
-#customer-details-table td {
-    padding: 5px;
-}
-
-p.title {
-    font-weight: bolder;
-}
-
 p.description {
     font-size: smaller;
+    cursor:pointer;
 }
 
 p.price {
