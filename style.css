@@ -15,10 +15,7 @@ div a:hover {
     color:bisque;
 }
 
-.product-table-image {
-    max-height: 150px;
-    max-width: 150px;
-}
+
 
 td {
     padding: 30px;
@@ -42,15 +39,6 @@ p.price {
 
 p.category {
     font-size: x-small;
-}
-
-
-
-@media screen and (max-width: 800px) {
-
-    .product-table-image {
-        max-width: 70px;
-    }
 }
 
 .rating {

@@ -28,7 +28,7 @@ function populateProductTable(products, productTable, showBuyButton = true) {
 
         row.querySelector('.product-table-image').src = p.image
         row.querySelector('.product-table-image').alt = 'Image of ' + p.title
-        row.querySelector('.title').innerHTML = p.title
+        row.querySelector('.card-title').innerHTML = p.title
         row.querySelector('.category').innerHTML = p.category
         row.querySelector('.description').innerHTML = p.description
         row.querySelector('.rating-upper').style.width = p.rating.rate / 5 * 100 + "%"
