@@ -21,86 +21,98 @@
         </nav>
     </div>
 
-    <table id="products-in-cart-table">
-        <tr class="product-table-row d-none">
-            <td class="product-table-image-cell">
-                <img src="" alt="" class="product-table-image">
-            </td>
-            <td class="product-table-description-cell">
-                <p class="title"></p>
-                <p class="category"></p>
-                <p class="description"></p>
-                <div class="rating">
-                    <div class="rating-upper">
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                    </div>
-                    <div class="rating-lower">
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                    </div>
+    <div class="container">
+        <div class="row g4 product-table-row" id="products-in-cart-table">
+            <div class="col product-table-description-cell d-none gy-4">
+                
+                <div class="card">
+                 
+                        <img src="" alt="" class="product-table-image p-3 card-img-top">
+                 
+                    <div class="card-body">
+                        <div class="card-title"></div>
+                   <div class="card-text">
+                    <p class="category"></p>
+                    <p class="description"></p>
                 </div>
-                <p class="rating-text"></p>
-                <p class="price"></p>
-                <button class="btn btn-success add-to-cart-button">Buy!</button>
-            </td>
-        </tr>
-    </table>
+            </div>
+                <div class="card-footer">
+                    <div class="rating">
+                        <div class="rating-upper">
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                        </div>
+                        <div class="rating-lower">
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                        </div>
+                    </div>
+                    <p class="rating-text"></p>
+                    <p class="price"></p>
+                    <button class="btn btn-success add-to-cart-button">Buy!</button>
+                </div>
+            
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <form class="row g-3 needs-validation" id="customer-details" action="/thankyou.html" novalidate>
-        <div class="col-md-2">
+    <div class="container">
+
+    <form class="row row-cols-2 needs-validation" id="customer-details" action="/thankyou.html" novalidate>
+        <div class="col">
             <label for="email" class="form-label">Email</label>
             <input type="email" class="form-control form-input" id="email" value="" required>
             <div class="invalid-feedback">
                 Email must contain @ and be no more than 50 characters.
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col">
             <label for="phone" class="form-label">Phone</label>
             <input type="text" class="form-control form-input" id="phone" value="" required>
             <div class="invalid-feedback">
                 Phone can only contain digits, dashes and parentheses. It must also be no more than 50 characters.
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col">
             <label for="full-name" class="form-label">Full name</label>
             <input type="text" class="form-control form-input" id="full-name" value="" required>
             <div class="invalid-feedback">
                 Name must be 2-50 characters.
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col">
             <label for="street-and-number" class="form-label">Street and number</label>
             <input type="text" class="form-control form-input" id="street-and-number" value="" required>
             <div class="invalid-feedback">
                 Street and number must be 1-50 characters.
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col">
             <label for="postal-code" class="form-label">Postal code</label>
             <input type="text" class="form-control form-input" id="postal-code" required>
             <div class="invalid-feedback">
                 Postal code must be digits in this format: 000 00.
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col">
             <label for="city" class="form-label">City</label>
             <input type="text" class="form-control form-input" id="city" required>
             <div class="invalid-feedback">
                 City must be 1-50 characters.
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col">
             <button class="btn btn-primary text-nowrap" type="submit" id="orderButton">Submit order</button>
         </div>
     </form>
-
+</div>
     <script src="script.js"></script>
 </body>
 

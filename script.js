@@ -78,7 +78,7 @@ const validationPatterns = {
     divs.forEach((div) => {
         switch(div.id) {
             case 'product-table': getProductsFromAPI().then((products) => populateProductTable(products, div)); break;
-            case 'products-in-cart-table': populateProductTable([loadFromLocalStorage('product')], table, false); break;
+            case 'products-in-cart-table': populateProductTable([loadFromLocalStorage('product')], div, false); break;
             case 'customer-details-table': populateCustomerDetailsTable(loadFromLocalStorage('customer-details'), table); break;
         }
     })
