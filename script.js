@@ -26,8 +26,23 @@ function populateProductTable(products, productTable, showBuyButton = true) {
     products.forEach(p => {
         const row = document.querySelector('.product-col').cloneNode(true)
 
-        row.querySelector('.product-table-image').src = p.image
-        row.querySelector('.product-table-image').alt = 'Image of ' + p.title
+        const modal = document.querySelector('.modal').cloneNode(true)
+        
+        modal.id = 'modal' + p.id;
+        modal.querySelector('.modal-title').innerHTML = p.title;
+        modal.querySelector('.modal-body').innerHTML = p.description;
+        modal.querySelector('.modal-image').src = p.image;
+        modal.querySelector('.modal-image').alt = 'Image of ' + p.title;
+        modal.querySelector('.rating-upper').style.width = p.rating.rate / 5 * 100 + "%"
+        modal.querySelector('.rating-text').innerHTML = p.rating.rate + " stars (" + p.rating.count + " votes)"
+        modal.querySelector('.price').innerHTML = "$" + p.price.toFixed(0)
+        modal.querySelector('.decimals').innerHTML = (((p.price - Math.floor(p.price)) * 100) + "0").substring(0,2);
+
+        row.querySelector('.product-table-image').src = p.image;
+        row.querySelector('.product-table-image').alt = 'Image of ' + p.title;
+        row.addEventListener('click', () => {
+            $('#modal' + p.id).modal('toggle');
+        });
         row.querySelector('.card-title').innerHTML = p.title
         row.querySelector('.category').innerHTML = p.category
         row.querySelector('.description').innerHTML = p.description
@@ -48,6 +63,7 @@ function populateProductTable(products, productTable, showBuyButton = true) {
         
         row.classList.remove('d-none')
         productTable.appendChild(row)
+        productTable.appendChild(modal);
         
     });
 
