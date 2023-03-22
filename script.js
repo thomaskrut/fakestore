@@ -35,12 +35,9 @@ function populateProductTable(products, productTable, showBuyButton = true) {
             event.target.classList.contains('text-truncate') ? event.target.classList.remove('text-truncate') : event.target.classList.add('text-truncate');
         });
 
-       
         row.querySelector('.rating-upper').style.width = p.rating.rate / 5 * 100 + "%"
         row.querySelector('.rating-text').innerHTML = p.rating.rate + " stars (" + p.rating.count + " votes)"
         row.querySelector('.price').innerHTML = "$" + p.price.toFixed(2)
-
-       
 
         if (showBuyButton) {
             row.querySelector('.add-to-cart-button').addEventListener("mousedown", () => buyProduct(p))
@@ -80,7 +77,7 @@ const validationPatterns = {
 })();
 
 (function initTables() {
-    const divs = Array.from(document.querySelectorAll('div'))
+    const divs = document.querySelectorAll('div')
 
     divs.forEach((div) => {
         switch(div.id) {
