@@ -43,6 +43,7 @@ function populateProductTable(products, productTable, showBuyButton = true) {
         
         row.classList.remove('d-none')
         productTable.appendChild(row)
+        
 
     });
 
