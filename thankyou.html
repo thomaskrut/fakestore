@@ -9,7 +9,7 @@
     <title>Fake Store</title>
 </head>
 
-<body class="container">
+<body>
 
     <nav class="navbar sticky-top navbar-expand-sm navbar-dark bg-dark">
         <div class="container">
@@ -34,48 +34,58 @@
             </div>
         </div>
     </nav>
-    
-    <h1>Thank you for your order!</h1>
-    <br>
-    <div class="row">
-        <div class="col-md-8">
-            <h3>Ordered item</h3>
-            <table id="products-in-cart-table">
-                <tr class="product-table-row d-none">
-                    <td class="product-table-image-cell">
-                        <img src="" alt="" class="product-table-image">
-                    </td>
-                    <td class="product-table-description-cell">
-                        <p class="title"></p>
-                        <p class="category"></p>
-                        <p class="description"></p>
-                        <div class="rating">
-                            <div class="rating-upper">
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                            </div>
-                            <div class="rating-lower">
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                            </div>
-                        </div>
-                        <p class="rating-text"></p>
-                        <p class="price"></p>
-                        <button class="btn btn-success add-to-cart-button">Buy!</button>
-                    </td>
-                </tr>
-            </table>
-        </div>
 
-        <div class="col-md-4">
-            <h3>Your details</h3>
-            <table id="customer-details-table">
+    
+
+
+    <div class="container">
+        <br>
+        <h1>Thank you for your order!</h1>
+        <br>
+        <div class="row row-cols-md-2 row-cols-sm-1 row-cols-1 product-table-row" id="products-in-cart-table">
+            <div class="col product-col d-none">
+                <h3><br>Selected item</h3><br>
+                <div class="card">
+                 
+                        <img src="" alt="" class="product-table-image p-3 card-img-top">
+                 
+                    <div class="card-body">
+                        <div class="card-title"></div>
+                   <div class="card-text">
+                    <p class="category"></p>
+                    <p class="description"></p>
+                </div>
+            </div>
+                <div class="card-footer">
+                    <div class="rating">
+                        <div class="rating-upper">
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                        </div>
+                        <div class="rating-lower">
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                        </div>
+                    </div>
+                    <p class="rating-text"></p>
+                    <p class="price"></p>
+                    <button class="btn btn-success add-to-cart-button">Buy!</button>
+                </div>
+            
+                </div>
+            </div>
+        
+
+        <div class="col">
+            <h3><br>Your details</h3><br>
+            <div id="customer-details">
+            <table class="customer-details-table">
                 <tr class="customer-details-table-row d-none">
                     <td class="customer-details-table-property-name-cell">
                         <p class="customer-details-table-property-name font-weight-bold"></p>
@@ -86,6 +96,18 @@
                 </tr>
             </table>
         </div>
+        </div>
+    </div>
+
+    </div>
+
+
+
+
+
+    
+    
+       
     </div>
     <script src="script.js"></script>
 </body>

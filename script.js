@@ -5,7 +5,7 @@ async function getProductsFromAPI() {
 const saveInLocalStorage = (name, object) => localStorage.setItem(name, JSON.stringify(object));
 const loadFromLocalStorage = (name) => JSON.parse(localStorage.getItem(name));
 
-function populateCustomerDetailsTable(customerDetails, customerDetailsTable) {
+function populateCustomerDetailsTable(customerDetails, customerDetailsDiv) {
     Object.keys(customerDetails).forEach((key) => {
         const row = document.querySelector('.customer-details-table-row').cloneNode(true)
 
@@ -13,7 +13,7 @@ function populateCustomerDetailsTable(customerDetails, customerDetailsTable) {
         row.querySelector('.customer-details-table-property-value').innerHTML = customerDetails[key]
 
         row.classList.remove('d-none')
-        customerDetailsTable.appendChild(row)
+        customerDetailsDiv.querySelector('.customer-details-table').appendChild(row)
       });
 }
 
@@ -86,7 +86,7 @@ const validationPatterns = {
         switch(div.id) {
             case 'product-table': getProductsFromAPI().then((products) => populateProductTable(products, div)); break;
             case 'products-in-cart-table': populateProductTable([loadFromLocalStorage('product')], div, false); break;
-            case 'customer-details-table': populateCustomerDetailsTable(loadFromLocalStorage('customer-details'), table); break;
+            case 'customer-details': populateCustomerDetailsTable(loadFromLocalStorage('customer-details'), div); break;
         }
     })
 })();
