@@ -37,7 +37,8 @@ function populateProductTable(products, productTable, showBuyButton = true) {
 
         row.querySelector('.rating-upper').style.width = p.rating.rate / 5 * 100 + "%"
         row.querySelector('.rating-text').innerHTML = p.rating.rate + " stars (" + p.rating.count + " votes)"
-        row.querySelector('.price').innerHTML = "$" + p.price.toFixed(2)
+        row.querySelector('.price').innerHTML = "$" + p.price.toFixed(0)
+        row.querySelector('.decimals').innerHTML = (((p.price - Math.floor(p.price)) * 100) + "0").substring(0,2);
 
         if (showBuyButton) {
             row.querySelector('.add-to-cart-button').addEventListener("mousedown", () => buyProduct(p))

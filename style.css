@@ -9,8 +9,13 @@ p.description {
     cursor:pointer;
 }
 
-p.price {
+span.price {
     font-size: x-large;
+}
+
+span.decimals {
+    font-size: x-small;
+    vertical-align:super;
 }
 
 p.category {
