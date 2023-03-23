@@ -107,6 +107,11 @@ function buyProduct(product) {
     window.location = 'order.html';*/
 }
 
+function sendOrder() {
+    shoppingCart.sendOrder();
+    document.location = 'thankyou.html';
+}
+
 function populateProductTable(products, productTable, showBuyButton = true) {
     products.forEach(p => {
 
@@ -269,7 +274,7 @@ const validationPatterns = {
     const forms = Array.from(document.querySelectorAll('.needs-validation'));
 
     forms.forEach((form) => {
-        form.addEventListener('submit', (event) => allInputsAreValid() ? saveInLocalStorage(form.id, getInputsAsObject()) : event.preventDefault());
+        form.addEventListener('submit', (event) => allInputsAreValid() ? sendOrder() : event.preventDefault());
         form.addEventListener('change', (event) => validateSingleInput(event.target, validationPatterns[event.target.attributes.id.value]));
     })
 })();
