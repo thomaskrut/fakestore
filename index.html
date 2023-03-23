@@ -47,7 +47,7 @@
                     <img src="" alt="" class="product-table-image p-3 card-img-top">
 
                     <div class="card-body">
-                        <div class="card-title text-truncate"></div>
+                        <div class="card-title product-title text-truncate"></div>
                         <div class="card-text">
                             <p class="category"></p>
                             <p class="description text-truncate"></p>
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         <p class="rating-text"></p>
-                        <span class="price"></span><sup><span class="decimals"></span></sup>
+                        <sub><span class="price"></span></sub><sup><span class="decimals"></span></sup>
                         <br><br>
                         <p><button class="btn btn-success add-to-cart-button">Buy!</button></p>
                     </div>
@@ -85,45 +85,54 @@
         </div>
     </div>
 
-      
-      <!-- Modal -->
-      <div class="modal fade" id="" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+
+    <div class="modal fade" id="" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <img src="" alt="" class="modal-image p-5">
-            <div class="modal-body">
-              
-            </div>
-            <div class="modal-footer d-block">
-                <div class="rating">
-                    <div class="rating-upper">
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                    </div>
-                    <div class="rating-lower">
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
-                        <span>★</span>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title product-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <img src="" alt="" class="product-table-image p-5">
+                <div class="modal-body description">
+
+                </div>
+                <div class="modal-footer d-block">
+                    <div class="row align-items-baseline">
+                        <div class="col">
+                            <div class="rating">
+                                <div class="rating-upper">
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                </div>
+                                <div class="rating-lower">
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                </div>
+                            </div>
+                            <p class="rating-text"></p>
+
+                        </div>
+                        <div class="col">
+                            <sub><span class="price"></span></sub><sup><span class="decimals"></span></sup>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-success add-to-cart-button">Buy!</button>
+                        </div>
                     </div>
                 </div>
-                <p class="rating-text"></p>
-                <span class="price"></span><sup><span class="decimals"></span></sup>
-                <br><br>
-                <button class="btn btn-success add-to-cart-button">Buy!</button>
-              
+
             </div>
-          </div>
         </div>
-      </div>
+    </div>
+    </div>
 
 
 

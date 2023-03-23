@@ -1,26 +1,39 @@
 .product-table-image {
+  cursor: pointer;
   height: 200px;
   object-fit: contain;
   align-self: center;
 }
 
-.modal-image {
-  max-width: 300px;
+.card-body {
+  cursor: pointer;
+}
+
+.card-body:hover {
+  cursor: pointer;
+  color:#888888;
+}
+
+.modal-content .product-table-image {
+  height: 300px;
   object-fit: contain;
   align-self: center;
 }
 
+.modal-content .add-to-cart-button {
+  width: 100%;
+}
+
 p.description {
   font-size: smaller;
-  cursor: pointer;
 }
 
 span.price {
-  font-size: x-large;
+  font-size: xx-large;
 }
 
 span.decimals {
-  font-size: x-small;
+  font-size: small;
   vertical-align: super;
 }
 
