@@ -281,6 +281,10 @@ const validationPatterns = {
         $('#cart-viewer').modal('toggle');
     });
 
+    document.querySelector('.cart-close').addEventListener('click', () => {
+        $('#cart-viewer').modal('toggle');
+    });
+
     const divs = document.querySelectorAll('div')
     
     divs.forEach((div) => {
