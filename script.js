@@ -149,7 +149,8 @@ function populateProductTable(products, productTable, showBuyButton = true) {
 
 function viewShoppingCart(products = shoppingCart.allProducts) {
 
-    const productsTable = document.querySelector('#products-table');
+    const productsTable = document.querySelector('#cart-table');
+    productsTable.innerHTML = "";
 
     shoppingCart.cart.forEach((value, key) => {
         const count = value;

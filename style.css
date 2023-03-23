@@ -7,6 +7,25 @@ img.cart {
   cursor: pointer;
 }
 
+img.cart-product {
+  max-height: 50px;
+  max-width: 50px;
+}
+
+img.delete {
+  max-width: 20px;
+  cursor: pointer;
+}
+
+input.count {
+  max-width: 40pt;
+}
+
+#cart-table td {
+  padding: 10px;
+  font-size: smaller;
+}
+
 #products-in-cart {
   font-weight: bold;
   font-size: 8pt;
