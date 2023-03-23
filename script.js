@@ -245,7 +245,7 @@ function viewShoppingCart(products = shoppingCart.allProducts) {
 }
 
 function checkOut() {
-    window.location = "index.html?checkout";
+    document.querySelector('#customer-details').style.visibility = 'visible';
 }
 
 const validationPatterns = {
