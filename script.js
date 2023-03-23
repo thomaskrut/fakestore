@@ -54,7 +54,9 @@ function populateProductTable(products, productTable, showBuyButton = true) {
                 e.querySelector('.add-to-cart-button').addEventListener("mousedown", () => buyProduct(p))
             });
         } else {
-            row.querySelector('.add-to-cart-button').classList.add('d-none')
+            [row, modal].forEach(e => {
+                e.querySelector('.add-to-cart-button').classList.add('d-none')
+            });
         }
 
         row.classList.remove('d-none')
