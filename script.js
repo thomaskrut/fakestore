@@ -173,6 +173,11 @@ const validationPatterns = {
 
     shoppingCart.readFromLocalStorage();
 
+    document.querySelector('.cart').addEventListener('click', () => {
+        viewShoppingCart();
+        $('#cart-viewer').modal('toggle');
+    });
+
     const divs = document.querySelectorAll('div')
 
     divs.forEach((div) => {

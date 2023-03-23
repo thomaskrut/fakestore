@@ -4,6 +4,7 @@ img.cart {
   position: absolute;
   right: 120px;
   top: 0px;
+  cursor: pointer;
 }
 
 #products-in-cart {
