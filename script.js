@@ -2,6 +2,8 @@ const shoppingCart = {
 
     cart: new Map(),
 
+    allProducts: [],
+
     numberOfItems: 0,
 
     addProduct: function (product) {
@@ -145,6 +147,106 @@ function populateProductTable(products, productTable, showBuyButton = true) {
 
 }
 
+function viewShoppingCart(products = shoppingCart.allProducts) {
+
+    const productsTable = document.querySelector('#products-table');
+
+    shoppingCart.cart.forEach((value, key) => {
+        const count = value;
+        const currentProduct = products.filter(p => { return p.id == key; })[0];
+        const newTableRow = document.createElement("tr");
+        newTableRow.id = currentProduct.id;
+
+        const imageCell = document.createElement("td");
+        const productImage = document.createElement("img");
+        productImage.src = currentProduct.image;
+        productImage.className = "cart-product";
+        imageCell.appendChild(productImage);
+        newTableRow.appendChild(imageCell);
+
+        const countCell = document.createElement("td");
+        const countField = document.createElement("input");
+        countField.className = 'count';
+        countField.min = 0;
+        countField.type = 'number';
+        countField.value = count;
+        countField.addEventListener("input", (event) => {
+            shoppingCart.alterProductCount(currentProduct.id, Number(countField.value));
+            document.querySelector('#sum' + currentProduct.id).textContent = (currentProduct.price * countField.value).toFixed(2);
+            shoppingCart.updateSum(products);
+        });
+        countCell.appendChild(countField);
+        newTableRow.appendChild(countCell);
+
+        const titleCell = document.createElement("td");
+        titleCell.style.width = '100%';
+        titleCell.textContent = currentProduct.title;
+        newTableRow.appendChild(titleCell);
+
+        const productSum = document.createElement("td");
+        productSum.id = 'sum' + currentProduct.id;
+        productSum.textContent = (currentProduct.price * count).toFixed(2);
+        productSum.style.textAlign = 'right';
+        newTableRow.appendChild(productSum);
+
+        const deleteCell = document.createElement("td");
+        const deleteImage = document.createElement("img");
+        deleteImage.src = "x.jpg";
+        deleteImage.className = 'delete';
+
+        deleteCell.appendChild(deleteImage);
+        newTableRow.appendChild(deleteCell);
+
+        productsTable.appendChild(newTableRow);
+        deleteImage.addEventListener('click', () => {
+            productsTable.removeChild(newTableRow);
+            shoppingCart.removeProduct(currentProduct.id);
+            shoppingCart.updateSum(products);
+        });
+    })
+
+
+    const bottomRow = document.createElement("tr");
+    bottomRow.className = 'bottom-row';
+
+    const removeAllCell = document.createElement("td");
+    const checkoutCell = document.createElement("td");
+
+    checkoutCell.colSpan = 2;
+    bottomRow.appendChild(checkoutCell);
+    bottomRow.appendChild(removeAllCell);
+
+
+    const checkOutButton = document.createElement("button");
+    checkOutButton.addEventListener("click", () => checkOut());
+    checkOutButton.className = "btn btn-success";
+    checkOutButton.textContent = "Checkout";
+    checkoutCell.appendChild(checkOutButton);
+
+    const removeAllButton = document.createElement("button");
+    removeAllButton.addEventListener("click", () => shoppingCart.removeAllProducts());
+    removeAllButton.className = "btn btn-warning";
+    removeAllButton.textContent = "Remove all items";
+    removeAllCell.appendChild(removeAllButton);
+
+    const sumCell = document.createElement("td");
+    sumCell.id = 'sumOfAll';
+    sumCell.style.textAlign = 'right';
+    sumCell.style.fontWeight = 'bold';
+    sumCell.textContent = 'summa';
+
+    bottomRow.appendChild(sumCell);
+
+    productsTable.appendChild(bottomRow);
+    shoppingCart.updateSum(products);
+
+
+}
+
+function checkOut() {
+    window.location = "index.html?checkout";
+}
+
 const validationPatterns = {
     'email': /^(?=.{1,50}$)[^@]+@[^@]+$/i,
     'phone': /^(?=.{1,50}$)(\d|-|\(|\))+$/i,
@@ -179,10 +281,13 @@ const validationPatterns = {
     });
 
     const divs = document.querySelectorAll('div')
-
+    
     divs.forEach((div) => {
         switch (div.id) {
-            case 'product-table': getProductsFromAPI().then((products) => populateProductTable(products, div)); break;
+            case 'product-table': getProductsFromAPI().then((products) => {
+                populateProductTable(products, div);
+                shoppingCart.allProducts = products; 
+            }); break;
             case 'products-in-cart-table': populateProductTable([loadFromLocalStorage('product')], div, false); break;
             case 'customer-details': populateCustomerDetailsTable(loadFromLocalStorage('customer-details'), div); break;
         }
