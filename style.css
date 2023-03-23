@@ -22,7 +22,7 @@ input.count {
 }
 
 #customer-details {
-  visibility: hidden;
+  display: none;
 }
 
 #cart-table td {
