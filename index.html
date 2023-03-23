@@ -149,9 +149,64 @@
                     <table id="cart-table">
 
                     </table>
+                    <br>
                 </div>
                 <div>
+                    <form class="row g-3 needs-validation invisible" id="customer-details" action="thankyou.html" novalidate>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="full-name" class="form-label">Name</label>
+                                <input type="text" class="form-control form-input" id="full-name" value="" required>
+                                <div class="invalid-feedback">
+                                    Name must be 2-50 characters.
+                                </div>
+                            </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control form-input" id="email" value="" required>
+                            <div class="invalid-feedback">
+                                Email must contain @ and be no more than 50 characters.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="text" class="form-control form-input" id="phone" value="" required>
+                            <div class="invalid-feedback">
+                                Phone can only contain digits, dashes and parentheses. It must also be no more than 50 characters.
+                            </div>
+                        </div>
                     
+                   
+                        <div class="col-md-6">
+                            <label for="street-and-number" class="form-label">Street and number</label>
+                            <input type="text" class="form-control form-input" id="street-and-number" value="" required>
+                            <div class="invalid-feedback">
+                                Street and number must be 1-50 characters.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="postal-code" class="form-label">Postal code</label>
+                            <input type="text" class="form-control form-input" id="postal-code" required>
+                            <div class="invalid-feedback">
+                                Postal code must be digits in this format: 000 00.
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="city" class="form-label">City</label>
+                            <input type="text" class="form-control form-input" id="city" required>
+                            <div class="invalid-feedback">
+                                City must be 1-50 characters.
+                            </div>
+                        </div>
+                    </div>
+                        <div class="col-md-12">
+                            <button class="btn btn-primary text-nowrap" type="submit" id="orderButton">Submit order</button>
+                        </div>
+                    </form>
                 </div>
                 </div>
 
