@@ -1,3 +1,85 @@
+const shoppingCart = {
+
+    cart: new Map(),
+
+    numberOfItems: 0,
+
+    addProduct: function (product) {
+        if (this.cart.has(product.id)) {
+            this.cart.set(product.id, this.cart.get(product.id) + 1);
+        } else {
+            this.cart.set(product.id, 1);
+        }
+        this.numberOfItems++;
+        this.saveToLocalStorage();
+    },
+
+    alterProductCount: function (productId, count) {
+        this.cart.set(productId, count)
+        this.saveToLocalStorage();
+    },
+
+    removeProduct: function (productId) {
+        this.cart.delete(productId);
+        this.saveToLocalStorage();
+    },
+
+    removeAllProducts: function () {
+        if (confirm("Delete all items from order?")) {
+            this.cart.clear();
+            this.saveToLocalStorage();
+            this.updateSum();
+        }
+
+    },
+
+    sendOrder: function () {
+        this.cart.clear();
+        this.saveToLocalStorage();
+        this.updateSum();
+    },
+
+    updateSum: function (products) {
+
+        if (this.cart.size == 0) {
+            window.location.href = "index.html";
+            return;
+        }
+        let sum = 0;
+        this.cart.forEach((value, key) => {
+            const currentProductPrice = products.filter(p => { return p.id == key; })[0].price;
+            sum = sum + currentProductPrice * value;
+        })
+        document.querySelector('#sumOfAll').textContent = sum.toFixed(2);
+
+    },
+
+    saveToLocalStorage: function () {
+
+        localStorage.setItem('cart', JSON.stringify(Array.from(this.cart)));
+        this.readFromLocalStorage();
+
+    },
+
+    updateCartIcon: function () {
+        document.querySelector('#products-in-cart').innerHTML = this.numberOfItems;
+    },
+
+    readFromLocalStorage: function () {
+        this.numberOfItems = 0;
+        if (localStorage.getItem('cart') !== null) {
+            const cartArray = JSON.parse(localStorage.getItem('cart'));
+            cartArray.forEach(entry => {
+                this.cart.set(entry[0], entry[1]);
+                this.numberOfItems += entry[1];
+            });
+        }
+        this.updateCartIcon();
+    }
+
+
+};
+
 async function getProductsFromAPI() {
     return (await fetch('https://mocki.io/v1/a99e6cf4-1e5a-4b0e-bc57-6c651f0f09cd')).json();
 }
@@ -18,8 +100,9 @@ function populateCustomerDetailsTable(customerDetails, customerDetailsDiv) {
 }
 
 function buyProduct(product) {
-    saveInLocalStorage('product', product);
-    window.location = 'order.html';
+    shoppingCart.addProduct(product);
+    /*saveInLocalStorage('product', product);
+    window.location = 'order.html';*/
 }
 
 function populateProductTable(products, productTable, showBuyButton = true) {
@@ -43,20 +126,15 @@ function populateProductTable(products, productTable, showBuyButton = true) {
             e.querySelector('.decimals').innerHTML = (((p.price - Math.floor(p.price)) * 100) + "0").substring(0, 2);
         })
 
-        row.addEventListener('click', () => {
-            $('#modal' + p.id).modal('toggle');
-        });
+        row.querySelector('.card-body').addEventListener('click', () => $('#modal' + p.id).modal('toggle'));
+        row.querySelector('.product-table-image').addEventListener('click', () => $('#modal' + p.id).modal('toggle'));
 
         row.querySelector('.category').innerHTML = p.category
 
         if (showBuyButton) {
-            [row, modal].forEach(e => {
-                e.querySelector('.add-to-cart-button').addEventListener("mousedown", () => buyProduct(p))
-            });
+            [row, modal].forEach(e => e.querySelector('.add-to-cart-button').addEventListener("mousedown", () => shoppingCart.addProduct(p)))
         } else {
-            [row, modal].forEach(e => {
-                e.querySelector('.add-to-cart-button').classList.add('d-none')
-            });
+            [row, modal].forEach(e => e.querySelector('.add-to-cart-button').classList.add('d-none'));
         }
 
         row.classList.remove('d-none')
@@ -92,6 +170,9 @@ const validationPatterns = {
 })();
 
 (function initTables() {
+
+    shoppingCart.readFromLocalStorage();
+
     const divs = document.querySelectorAll('div')
 
     divs.forEach((div) => {
