@@ -44,15 +44,9 @@ input.count {
 }
 
 #products-in-cart.expand {
-  font-weight: bold;
-  font-size: 14pt;
-  padding: 2px;
-  color: #FFFFFF;
-  background-color:green;
-  position: absolute;
-  right: 130px;
-  top: 10px;
-  border-radius: 5px;
+  font-size: 12pt;
+  right: 126px;
+  top: 6px;
   transition: 100ms;
 }
 

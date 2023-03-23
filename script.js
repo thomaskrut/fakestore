@@ -66,7 +66,7 @@ const shoppingCart = {
     updateCartIcon: function () {
         document.querySelector('#products-in-cart').innerHTML = this.numberOfItems;
         document.querySelector('#products-in-cart').classList.add('expand');
-        setTimeout(() => document.querySelector('#products-in-cart').classList.remove('expand'), 300);
+        setTimeout(() => document.querySelector('#products-in-cart').classList.remove('expand'), 200);
     },
 
     readFromLocalStorage: function () {
@@ -217,6 +217,8 @@ function viewShoppingCart(products = shoppingCart.allProducts) {
 
     const bottomRow = document.createElement("tr");
     bottomRow.className = 'bottom-row';
+    
+    bottomRow.style.borderTopWidth = '1px';
 
     const removeAllCell = document.createElement("td");
     const checkoutCell = document.createElement("td");
