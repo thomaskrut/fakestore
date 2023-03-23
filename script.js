@@ -65,6 +65,8 @@ const shoppingCart = {
 
     updateCartIcon: function () {
         document.querySelector('#products-in-cart').innerHTML = this.numberOfItems;
+        document.querySelector('#products-in-cart').classList.add('expand');
+        setTimeout(() => document.querySelector('#products-in-cart').classList.remove('expand'), 300);
     },
 
     readFromLocalStorage: function () {
