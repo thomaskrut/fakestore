@@ -1,4 +1,5 @@
 function getProductsFromAPI(target) {
+   
     const xhr1 = new XMLHttpRequest();
     const xhr2 = new XMLHttpRequest();
     
@@ -112,9 +113,7 @@ const shoppingCart = {
 
 };
 
-async function getProductsFromAPI() {
-    return (await fetch('https://mocki.io/v1/a99e6cf4-1e5a-4b0e-bc57-6c651f0f09cd')).json();
-}
+
 
 const saveInLocalStorage = (name, object) => localStorage.setItem(name, JSON.stringify(object));
 const loadFromLocalStorage = (name) => JSON.parse(localStorage.getItem(name));
@@ -133,8 +132,6 @@ function populateCustomerDetailsTable(customerDetails, customerDetailsDiv) {
 
 function buyProduct(product) {
     shoppingCart.addProduct(product);
-    /*saveInLocalStorage('product', product);
-    window.location = 'order.html';*/
 }
 
 function sendOrder() {
@@ -143,7 +140,11 @@ function sendOrder() {
 }
 
 function populateProductTable(products, productTable, showBuyButton = true) {
+
+    shoppingCart.allProducts = products;
+
     products.forEach(p => {
+        
 
         const row = document.querySelector('.product-col').cloneNode(true)
         const modal = document.querySelector('.modal').cloneNode(true)
@@ -297,6 +298,7 @@ const validationPatterns = {
 };
 
 (function initForms() {
+    
     const markInputAsValid = (input) => { input.classList.add('is-valid'); input.classList.remove('is-invalid'); return true }
     const markInputAsInValid = (input) => { input.classList.add('is-invalid'); input.classList.remove('is-valid'); return false }
     const validateSingleInput = (input) => validationPatterns[input.id].test(input.value) ? markInputAsValid(input) : markInputAsInValid(input)
@@ -312,7 +314,7 @@ const validationPatterns = {
 })();
 
 (function initTables() {
-
+    
     shoppingCart.readFromLocalStorage();
 
     document.querySelector('.cart').addEventListener('click', () => {
@@ -333,4 +335,4 @@ const validationPatterns = {
             case 'customer-details': populateCustomerDetailsTable(loadFromLocalStorage('customer-details'), div); break;
         }
     })
-})
+})();
