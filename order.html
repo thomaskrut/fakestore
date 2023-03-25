@@ -43,7 +43,7 @@
                 <h3><br>Selected item</h3><br>
                 <div class="card shadow">
 
-                    <img src="placeholder" alt="placeholder" class="product-table-image p-3 card-img-top">
+                    <img src="" alt="" class="product-table-image p-3 card-img-top">
 
                     <div class="card-body">
                         <div class="card-title product-title"></div>
@@ -81,14 +81,14 @@
                 <form class="row row-cols-2 needs-validation" id="customer-details" action="/thankyou.html" novalidate>
                     <div class="col">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control form-input" id="email" value="" required>
+                        <input type="email" class="form-control form-input" id="email" value="" pattern="^(?=.{1,50}$)[^@]+@[^@]+$" required>
                         <div class="invalid-feedback">
                             Email must contain @ and be no more than 50 characters.
                         </div>
                     </div>
                     <div class="col">
                         <label for="phone" class="form-label">Phone</label>
-                        <input type="text" class="form-control form-input" id="phone" value="" required>
+                        <input type="text" class="form-control form-input" id="phone" value="" pattern="^(?=.{1,50}$)(\d|-|\(|\))+$" required>
                         <div class="invalid-feedback">
                             Phone can only contain digits, dashes and parentheses. It must also be no more than 50
                             characters.
@@ -96,28 +96,28 @@
                     </div>
                     <div class="col">
                         <label for="full-name" class="form-label">Full name</label>
-                        <input type="text" class="form-control form-input" id="full-name" value="" required>
+                        <input type="text" class="form-control form-input" id="full-name" value="" pattern="^.{2,50}$" required>
                         <div class="invalid-feedback">
                             Name must be 2-50 characters.
                         </div>
                     </div>
                     <div class="col">
                         <label for="street-and-number" class="form-label">Street and number</label>
-                        <input type="text" class="form-control form-input" id="street-and-number" value="" required>
+                        <input type="text" class="form-control form-input" id="street-and-number" value="" pattern="^.{1,50}$" required>
                         <div class="invalid-feedback">
                             Street and number must be 1-50 characters.
                         </div>
                     </div>
                     <div class="col">
                         <label for="postal-code" class="form-label">Postal code</label>
-                        <input type="text" class="form-control form-input" id="postal-code" required>
+                        <input type="text" class="form-control form-input" id="postal-code" pattern="^[0-9]{3} [0-9]{2}$" required>
                         <div class="invalid-feedback">
                             Postal code must be digits in this format: 000 00.
                         </div>
                     </div>
                     <div class="col">
                         <label for="city" class="form-label">City</label>
-                        <input type="text" class="form-control form-input" id="city" required>
+                        <input type="text" class="form-control form-input" id="city" pattern="^.{1,50}$" required>
                         <div class="invalid-feedback">
                             City must be 1-50 characters.
                         </div>
@@ -130,14 +130,14 @@
         </div>
 
 
-        <div class="modal fade" id="placeholder" tabindex="-1">
+        <div class="modal fade" id="" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title product-title" id="exampleModalLabel">Modal title</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <img src="placeholder" alt="placeholder" class="product-table-image p-5">
+                    <img src="" alt="" class="product-table-image p-5">
                     <div class="modal-body description">
 
                     </div>
