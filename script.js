@@ -300,9 +300,10 @@ const validationPatterns = {
 (function initForms() {
     const forms = document.querySelectorAll('.needs-validation');
     const markInputValidity = (input, isValid) => { input.classList.toggle('is-valid', isValid); input.classList.toggle('is-invalid', !isValid); };
+    const stopFormSubmissionIfInvalid = (form, event) => { if (!form.checkValidity()) { event.preventDefault(); event.stopPropagation(); } };
   
     Array.from(forms).forEach(form => { 
-        form.addEventListener('submit', (event) => (form.checkValidity()) ? form.classList.add('was-validated') : event.preventDefault());
+        form.addEventListener('submit', (event) => { form.classList.add('was-validated'); stopFormSubmissionIfInvalid(form, event); });
         form.addEventListener('change', (event) => markInputValidity(event.target, event.target.checkValidity()));
     })
 })();
