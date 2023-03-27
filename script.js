@@ -298,18 +298,12 @@ const validationPatterns = {
 };
 
 (function initForms() {
-    
-    const markInputAsValid = (input) => { input.classList.add('is-valid'); input.classList.remove('is-invalid'); return true }
-    const markInputAsInValid = (input) => { input.classList.add('is-invalid'); input.classList.remove('is-valid'); return false }
-    const validateSingleInput = (input) => validationPatterns[input.id].test(input.value) ? markInputAsValid(input) : markInputAsInValid(input)
-    const getFormInputs = () => Array.from(document.querySelectorAll('.form-input'));
-    const allInputsAreValid = () => getFormInputs().every((input) => validateSingleInput(input))
-    const getInputsAsObject = () => Object.fromEntries(getFormInputs().map((input) => [input.id, input.value]))
-    const forms = Array.from(document.querySelectorAll('.needs-validation'));
-
-    forms.forEach((form) => {
-        form.addEventListener('submit', (event) => allInputsAreValid() ? sendOrder() : event.preventDefault());
-        form.addEventListener('change', (event) => validateSingleInput(event.target, validationPatterns[event.target.attributes.id.value]));
+    const forms = document.querySelectorAll('.needs-validation');
+    const markInputValidity = (input, isValid) => { input.classList.toggle('is-valid', isValid); input.classList.toggle('is-invalid', !isValid); };
+  
+    Array.from(forms).forEach(form => { 
+        form.addEventListener('submit', (event) => (form.checkValidity()) ? form.classList.add('was-validated') : event.preventDefault());
+        form.addEventListener('change', (event) => markInputValidity(event.target, event.target.checkValidity()));
     })
 })();
 
