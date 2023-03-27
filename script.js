@@ -67,27 +67,15 @@ function populateProductTable(products, productTable, showBuyButton = true) {
 
 }
 
-const validationPatterns = {
-    'email': /^(?=.{1,50}$)[^@]+@[^@]+$/i,
-    'phone': /^(?=.{1,50}$)(\d|-|\(|\))+$/i,
-    'full-name': /^.{2,50}$/i,
-    'street-and-number': /^.{1,50}$/i,
-    'postal-code': /^[0-9]{3} [0-9]{2}$/i,
-    'city': /^.{1,50}$/i,
-};
-
 (function initForms() {
-    const markInputValidity = (input, isValid) => { input.classList.toggle('is-valid', isValid); input.classList.toggle('is-invalid', !isValid); return isValid; };
-    const validateSingleInput = (input) => markInputValidity(input, validationPatterns[input.id].test(input.value));
-    const getFormInputs = () => Array.from(document.querySelectorAll('.form-input'));
-    const allInputsAreValid = () => getFormInputs().every((input) => validateSingleInput(input));
-    const getInputsAsObject = () => Object.fromEntries(getFormInputs().map((input) => [input.id, input.value]));
-    const forms = Array.from(document.querySelectorAll('.needs-validation'));
-
-    forms.forEach((form) => {
-        form.addEventListener('submit', (event) => allInputsAreValid() ? saveInLocalStorage(form.id, getInputsAsObject()) : event.preventDefault());
-        form.addEventListener('change', (event) => validateSingleInput(event.target));
-    });
+    const forms = document.querySelectorAll('.needs-validation');
+    const markInputValidity = (input, isValid) => { input.classList.toggle('is-valid', isValid); input.classList.toggle('is-invalid', !isValid); };
+    const stopFormSubmissionIfInvalid = (form, event) => { if (!form.checkValidity()) { event.preventDefault(); event.stopPropagation(); } };
+  
+    Array.from(forms).forEach(form => { 
+        form.addEventListener('submit', (event) => { form.classList.add('was-validated'); stopFormSubmissionIfInvalid(form, event); });
+        form.addEventListener('change', (event) => markInputValidity(event.target, event.target.checkValidity()));
+    })
 })();
 
 (function initTables() {
