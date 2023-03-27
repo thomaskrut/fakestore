@@ -43,7 +43,11 @@ function populateProductTable(products, productTable, showBuyButton = true) {
             e.querySelector('.decimals').innerHTML = (((p.price - Math.floor(p.price)) * 100) + "0").substring(0, 2);
         })
 
-        row.addEventListener('click', () => {
+        row.querySelector('.card-body').addEventListener('click', () => {
+            $('#modal' + p.id).modal('toggle');
+        });
+
+        row.querySelector('.product-table-image').addEventListener('click', () => {
             $('#modal' + p.id).modal('toggle');
         });
 
