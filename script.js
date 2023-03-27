@@ -1,11 +1,11 @@
 function getProductsFromAPI(target) {
-   
+
     const xhr1 = new XMLHttpRequest();
     const xhr2 = new XMLHttpRequest();
-    
+
     xhr1.open('GET', 'https://mocki.io/v1/a99e6cf4-1e5a-4b0e-bc57-6c651f0f09cd');
     xhr2.open('GET', 'https://fakestoreapi.com/products');
-    
+
     xhr1.send();
     xhr2.send();
 
@@ -26,7 +26,7 @@ function getProductsFromAPI(target) {
     }
 
 }
-    
+
 const shoppingCart = {
 
     cart: new Map(),
@@ -134,17 +134,14 @@ function buyProduct(product) {
     shoppingCart.addProduct(product);
 }
 
-function sendOrder() {
-    shoppingCart.sendOrder();
-    document.location = 'thankyou.html';
-}
+
 
 function populateProductTable(products, productTable, showBuyButton = true) {
 
     shoppingCart.allProducts = products;
 
     products.forEach(p => {
-        
+
 
         const row = document.querySelector('.product-col').cloneNode(true)
         const modal = document.querySelector('.modal').cloneNode(true)
@@ -246,7 +243,7 @@ function viewShoppingCart(products = shoppingCart.allProducts) {
 
     const bottomRow = document.createElement("tr");
     bottomRow.className = 'bottom-row';
-    
+
     bottomRow.style.borderTopWidth = '1px';
 
     const removeAllCell = document.createElement("td");
@@ -273,7 +270,7 @@ function viewShoppingCart(products = shoppingCart.allProducts) {
     sumCell.id = 'sumOfAll';
     sumCell.style.textAlign = 'right';
     sumCell.style.fontWeight = 'bold';
-    
+
     sumCell.textContent = 'summa';
 
     bottomRow.appendChild(sumCell);
@@ -291,16 +288,22 @@ function checkOut() {
 (function initForms() {
     const forms = document.querySelectorAll('.needs-validation');
     const markInputValidity = (input, isValid) => { input.classList.toggle('is-valid', isValid); input.classList.toggle('is-invalid', !isValid); };
-    const stopFormSubmissionIfInvalid = (form, event) => { if (!form.checkValidity()) { event.preventDefault(); event.stopPropagation(); } };
-  
-    Array.from(forms).forEach(form => { 
+    const stopFormSubmissionIfInvalid = (form, event) => {
+        if (!form.checkValidity()) {
+            event.preventDefault(); event.stopPropagation();
+        } else {
+            shoppingCart.sendOrder();
+        }
+    };
+
+    Array.from(forms).forEach(form => {
         form.addEventListener('submit', (event) => { form.classList.add('was-validated'); stopFormSubmissionIfInvalid(form, event); });
         form.addEventListener('change', (event) => markInputValidity(event.target, event.target.checkValidity()));
     })
 })();
 
 (function initTables() {
-    
+
     shoppingCart.readFromLocalStorage();
 
     document.querySelector('.cart').addEventListener('click', () => {
@@ -313,7 +316,7 @@ function checkOut() {
     });
 
     const divs = document.querySelectorAll('div')
-    
+
     divs.forEach((div) => {
         switch (div.id) {
             case 'product-table': getProductsFromAPI(div); break;
