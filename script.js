@@ -183,133 +183,13 @@ function populateProductTable(products, productTable, showBuyButton = true) {
 
 }
 
-function viewShoppingCart(products = shoppingCart.allProducts) {
-
-    document.querySelector('#customer-details').style.display = 'none';
-    const productsTable = document.querySelector('#cart-table');
-    productsTable.innerHTML = "";
-
-    shoppingCart.cart.forEach((value, key) => {
-        const count = value;
-        const currentProduct = products.filter(p => { return p.id == key; })[0];
-        const newTableRow = document.createElement("tr");
-        newTableRow.id = currentProduct.id;
-
-        const imageCell = document.createElement("td");
-        const productImage = document.createElement("img");
-        productImage.src = currentProduct.image;
-        productImage.className = "cart-product";
-        imageCell.appendChild(productImage);
-        newTableRow.appendChild(imageCell);
-
-        const countCell = document.createElement("td");
-        const countField = document.createElement("input");
-        countField.className = 'count';
-        countField.min = 0;
-        countField.type = 'number';
-        countField.value = count;
-        countField.addEventListener("input", (event) => {
-            shoppingCart.alterProductCount(currentProduct.id, Number(countField.value));
-            document.querySelector('#sum' + currentProduct.id).textContent = (currentProduct.price * countField.value).toFixed(2);
-            shoppingCart.updateSum(products);
-        });
-        countCell.appendChild(countField);
-        newTableRow.appendChild(countCell);
-
-        const titleCell = document.createElement("td");
-        titleCell.style.width = '100%';
-        titleCell.textContent = currentProduct.title;
-        newTableRow.appendChild(titleCell);
-
-        const productSum = document.createElement("td");
-        productSum.id = 'sum' + currentProduct.id;
-        productSum.textContent = (currentProduct.price * count).toFixed(2);
-        productSum.style.textAlign = 'right';
-        newTableRow.appendChild(productSum);
-
-        const deleteCell = document.createElement("td");
-        const deleteImage = document.createElement("img");
-        deleteImage.src = "x.jpg";
-        deleteImage.className = 'delete';
-
-        deleteCell.appendChild(deleteImage);
-        newTableRow.appendChild(deleteCell);
-
-        productsTable.appendChild(newTableRow);
-        deleteImage.addEventListener('click', () => {
-            productsTable.removeChild(newTableRow);
-            shoppingCart.removeProduct(currentProduct.id);
-            shoppingCart.updateSum(products);
-        });
-    })
-
-
-    const bottomRow = document.createElement("tr");
-    bottomRow.className = 'bottom-row';
-    
-    bottomRow.style.borderTopWidth = '1px';
-
-    const removeAllCell = document.createElement("td");
-    const checkoutCell = document.createElement("td");
-
-    checkoutCell.colSpan = 2;
-    bottomRow.appendChild(checkoutCell);
-    bottomRow.appendChild(removeAllCell);
-
-
-    const checkOutButton = document.createElement("button");
-    checkOutButton.addEventListener("click", () => checkOut());
-    checkOutButton.className = "btn btn-success";
-    checkOutButton.textContent = "Checkout";
-    checkoutCell.appendChild(checkOutButton);
-
-    const removeAllButton = document.createElement("button");
-    removeAllButton.addEventListener("click", () => shoppingCart.removeAllProducts());
-    removeAllButton.className = "btn btn-warning";
-    removeAllButton.textContent = "Remove all items";
-    removeAllCell.appendChild(removeAllButton);
-
-    const sumCell = document.createElement("td");
-    sumCell.id = 'sumOfAll';
-    sumCell.style.textAlign = 'right';
-    sumCell.style.fontWeight = 'bold';
-    
-    sumCell.textContent = 'summa';
-
-    bottomRow.appendChild(sumCell);
-
-    productsTable.appendChild(bottomRow);
-    shoppingCart.updateSum(products);
-
-
-}
-
-function checkOut() {
-    document.querySelector('#customer-details').style.display = 'block';
-}
-
-const validationPatterns = {
-    'email': /^(?=.{1,50}$)[^@]+@[^@]+$/i,
-    'phone': /^(?=.{1,50}$)(\d|-|\(|\))+$/i,
-    'full-name': /^.{2,50}$/i,
-    'street-and-number': /^.{1,50}$/i,
-    'postal-code': /^[0-9]{3} [0-9]{2}$/i,
-    'city': /^.{2,50}$/i,
-};
-
 (function initForms() {
-    
-    const markInputAsValid = (input) => { input.classList.add('is-valid'); input.classList.remove('is-invalid'); return true }
-    const markInputAsInValid = (input) => { input.classList.add('is-invalid'); input.classList.remove('is-valid'); return false }
-    const validateSingleInput = (input) => validationPatterns[input.id].test(input.value) ? markInputAsValid(input) : markInputAsInValid(input)
-    const getFormInputs = () => Array.from(document.querySelectorAll('.form-input'));
-    const allInputsAreValid = () => getFormInputs().every((input) => validateSingleInput(input))
-    const getInputsAsObject = () => Object.fromEntries(getFormInputs().map((input) => [input.id, input.value]))
-    const forms = Array.from(document.querySelectorAll('.needs-validation'));
-
-    forms.forEach((form) => {
-        form.addEventListener('submit', (event) => allInputsAreValid() ? sendOrder() : event.preventDefault());
-        form.addEventListener('change', (event) => validateSingleInput(event.target, validationPatterns[event.target.attributes.id.value]));
+    const forms = document.querySelectorAll('.needs-validation');
+    const markInputValidity = (input, isValid) => { input.classList.toggle('is-valid', isValid); input.classList.toggle('is-invalid', !isValid); };
+  
+    Array.from(forms).forEach(form => { 
+        form.addEventListener('submit', (event) => (form.checkValidity()) ? form.classList.add('was-validated') : event.preventDefault());
+        form.addEventListener('change', (event) => markInputValidity(event.target, event.target.checkValidity()));
     })
 })();
 
