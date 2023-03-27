@@ -1,5 +1,30 @@
-async function getProductsFromAPI() {
-    return (await fetch('https://mocki.io/v1/a99e6cf4-1e5a-4b0e-bc57-6c651f0f09cd')).json();
+function getProductsFromAPI(target) {
+
+    const xhr1 = new XMLHttpRequest();
+    const xhr2 = new XMLHttpRequest();
+
+    xhr1.open('GET', 'https://mocki.io/v1/a99e6cf4-1e5a-4b0e-bc57-6c651f0f09cd');
+    xhr2.open('GET', 'https://fakestoreapi.com/products');
+
+    xhr1.send();
+    xhr2.send();
+
+    xhr1.onreadystatechange = () => {
+        if (xhr1.readyState === 4 && xhr1.status === 200) {
+            xhr2.abort();
+            console.log("connected to https://mocki.io/v1/a99e6cf4-1e5a-4b0e-bc57-6c651f0f09cd")
+            populateProductTable(JSON.parse(xhr1.response), target);
+        }
+    }
+
+    xhr2.onreadystatechange = () => {
+        if (xhr2.readyState === 4 && xhr2.status === 200) {
+            xhr1.abort()
+            console.log("connected to https://fakestoreapi.com/products")
+            populateProductTable(JSON.parse(xhr2.response), target);
+        }
+    }
+
 }
 
 const saveInLocalStorage = (name, object) => localStorage.setItem(name, JSON.stringify(object));
@@ -90,7 +115,7 @@ function populateProductTable(products, productTable, showBuyButton = true) {
 
     divs.forEach((div) => {
         switch (div.id) {
-            case 'product-table': getProductsFromAPI().then((products) => populateProductTable(products, div)); break;
+            case 'product-table': getProductsFromAPI(div); break;
             case 'products-in-cart-table': populateProductTable([loadFromLocalStorage('product')], div, false); break;
             case 'customer-details': populateCustomerDetailsTable(loadFromLocalStorage('customer-details'), div); break;
         }
