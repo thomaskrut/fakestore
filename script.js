@@ -52,6 +52,7 @@ function populateProductTable(products, productTable, showBuyButton = true) {
         });
 
         row.querySelector('.category').innerHTML = p.category
+        
 
         if (showBuyButton) {
             [row, modal].forEach(e => {
