@@ -288,15 +288,6 @@ function checkOut() {
     document.querySelector('#customer-details').style.display = 'block';
 }
 
-const validationPatterns = {
-    'email': /^(?=.{1,50}$)[^@]+@[^@]+$/i,
-    'phone': /^(?=.{1,50}$)(\d|-|\(|\))+$/i,
-    'full-name': /^.{2,50}$/i,
-    'street-and-number': /^.{1,50}$/i,
-    'postal-code': /^[0-9]{3} [0-9]{2}$/i,
-    'city': /^.{2,50}$/i,
-};
-
 (function initForms() {
     const forms = document.querySelectorAll('.needs-validation');
     const markInputValidity = (input, isValid) => { input.classList.toggle('is-valid', isValid); input.classList.toggle('is-invalid', !isValid); };
