@@ -68,11 +68,19 @@ function populateProductTable(products, productTable, showBuyButton = true) {
 }
 
 (function initForms() {
+    const getFormInputs = () => Array.from(document.querySelectorAll('.form-input'));
+    const getInputsAsObject = () => Object.fromEntries(getFormInputs().map((input) => [input.id, input.value]))
     const forms = document.querySelectorAll('.needs-validation');
     const markInputValidity = (input, isValid) => { input.classList.toggle('is-valid', isValid); input.classList.toggle('is-invalid', !isValid); };
-    const stopFormSubmissionIfInvalid = (form, event) => { if (!form.checkValidity()) { event.preventDefault(); event.stopPropagation(); } };
-  
-    Array.from(forms).forEach(form => { 
+    const stopFormSubmissionIfInvalid = (form, event) => {
+        if (!form.checkValidity()) {
+            event.preventDefault(); event.stopPropagation();
+        } else {
+            saveInLocalStorage(form.id, getInputsAsObject());
+        }
+    };
+    
+    Array.from(forms).forEach(form => {
         form.addEventListener('submit', (event) => { form.classList.add('was-validated'); stopFormSubmissionIfInvalid(form, event); });
         form.addEventListener('change', (event) => markInputValidity(event.target, event.target.checkValidity()));
     })
