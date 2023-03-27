@@ -288,13 +288,8 @@ function checkOut() {
 (function initForms() {
     const forms = document.querySelectorAll('.needs-validation');
     const markInputValidity = (input, isValid) => { input.classList.toggle('is-valid', isValid); input.classList.toggle('is-invalid', !isValid); };
-    const stopFormSubmissionIfInvalid = (form, event) => {
-        if (!form.checkValidity()) {
-            event.preventDefault(); event.stopPropagation();
-        } else {
-            shoppingCart.sendOrder();
-        }
-    };
+    const stopFormSubmissionIfInvalid = (form, event) => (!form.checkValidity()) ? event.preventDefault() : shoppingCart.sendOrder();
+    
 
     Array.from(forms).forEach(form => {
         form.addEventListener('submit', (event) => { form.classList.add('was-validated'); stopFormSubmissionIfInvalid(form, event); });
