@@ -111,9 +111,9 @@ function populateProductTable(products, productTable, showBuyButton = true) {
 (function initTables() {
     [...document.getElementsByTagName('div')].forEach((div) => {
         switch (div.id) {
-            case 'product-table': getProductsFromAPI(div); break;
-            case 'products-in-cart-table': populateProductTable([loadFromLocalStorage('product')], div, false); break;
-            case 'customer-details': populateCustomerDetailsTable(loadFromLocalStorage('customer-details'), div); break;
+            case 'product-table': getProductsFromAPI(div);
+            case 'products-in-cart-table': populateProductTable([loadFromLocalStorage('product')], div, false);
+            case 'customer-details': populateCustomerDetailsTable(loadFromLocalStorage('customer-details'), div);
         }
     })
 })();
