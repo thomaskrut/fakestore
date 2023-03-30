@@ -205,7 +205,7 @@ function viewShoppingCart(products = shoppingCart.allProducts) {
         countField.min = 0;
         countField.type = 'number';
         countField.value = count;
-        countField.addEventListener("input", (event) => {
+        countField.addEventListener("input", () => {
             shoppingCart.alterProductCount(currentProduct.id, Number(countField.value));
             document.querySelector('#sum' + currentProduct.id).textContent = (currentProduct.price * countField.value).toFixed(2);
             shoppingCart.updateSum(products);
