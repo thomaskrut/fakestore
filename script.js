@@ -1,31 +1,19 @@
 function getProductsFromAPI(target) {
 
-    const apis = ['https://mocki.io/v1/a99e6cf4-1e5a-4b0e-bc57-6c651f0f09cd', 'https://fakestoreapi.com/products']
-    const requests = apis.map(a => )
-    const xhr1 = new XMLHttpRequest();
-    const xhr2 = new XMLHttpRequest();
-
-    xhr1.open('GET', 'https://mocki.io/v1/a99e6cf4-1e5a-4b0e-bc57-6c651f0f09cd');
-    xhr2.open('GET', 'https://fakestoreapi.com/products');
-
-    xhr1.send();
-    xhr2.send();
-
-    xhr1.onreadystatechange = () => {
-        if (xhr1.readyState === 4 && xhr1.status === 200) {
-            xhr2.abort();
-            console.log("connected to https://mocki.io/v1/a99e6cf4-1e5a-4b0e-bc57-6c651f0f09cd")
-            populateProductTable(JSON.parse(xhr1.response), target);
+    const urls = ['https://mocki.io/v1/a99e6cf4-1e5a-4b0e-bc57-6c651f0f09cd', 'https://fakestoreapi.com/products']
+    const requests = [];
+    urls.forEach((url, index) => {
+        requests.push(new XMLHttpRequest());
+        requests[index].open('GET', url);
+        requests[index].send();
+        requests[index].onreadystatechange = () => {
+            if (requests[index].readyState === 4 && requests[index].status === 200) {
+                console.log("connected to " + url);
+                populateProductTable(JSON.parse(requests[index].response), target);
+                requests.forEach(req => req.abort());
+            }
         }
-    }
-
-    xhr2.onreadystatechange = () => {
-        if (xhr2.readyState === 4 && xhr2.status === 200) {
-            xhr1.abort()
-            console.log("connected to https://fakestoreapi.com/products")
-            populateProductTable(JSON.parse(xhr2.response), target);
-        }
-    }
+    });
 
 }
 
