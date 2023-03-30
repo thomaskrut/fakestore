@@ -1,5 +1,7 @@
 function getProductsFromAPI(target) {
 
+    const apis = ['https://mocki.io/v1/a99e6cf4-1e5a-4b0e-bc57-6c651f0f09cd', 'https://fakestoreapi.com/products']
+    const requests = apis.map(a => )
     const xhr1 = new XMLHttpRequest();
     const xhr2 = new XMLHttpRequest();
 
