@@ -31,14 +31,16 @@ const saveInLocalStorage = (name, object) => localStorage.setItem(name, JSON.str
 const loadFromLocalStorage = (name) => JSON.parse(localStorage.getItem(name));
 
 function populateCustomerDetailsTable(customerDetails, customerDetailsDiv) {
-    Object.keys(customerDetails).forEach((key) => {
-        const row = document.querySelector('.customer-details-table-row').cloneNode(true)
-
-        row.querySelector('.customer-details-table-property-name').innerHTML = (key.charAt(0).toUpperCase() + key.slice(1) + ':').replace(/-/g, " ")
-        row.querySelector('.customer-details-table-property-value').innerHTML = customerDetails[key]
-
-        row.classList.remove('d-none')
-        customerDetailsDiv.querySelector('.customer-details-table').appendChild(row)
+    const rowTemplate = customerDetailsDiv.querySelector('tr');
+    
+    Object.entries(customerDetails).forEach(([key, value]) => {
+        const row = rowTemplate.cloneNode(true);
+        
+        row.cells[0].textContent = key.replace(/-/g, ' ').replace(/^\w/, (c) => c.toUpperCase()) + ':';
+        row.cells[1].textContent = value;
+        row.classList.remove('d-none');
+        
+        customerDetailsDiv.firstElementChild.appendChild(row);
     });
 }
 
