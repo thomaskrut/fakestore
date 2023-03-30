@@ -33,14 +33,16 @@ const saveInLocalStorage = (name, object) => localStorage.setItem(name, JSON.str
 const loadFromLocalStorage = (name) => JSON.parse(localStorage.getItem(name));
 
 function populateCustomerDetailsTable(customerDetails, customerDetailsDiv) {
-    Object.keys(customerDetails).forEach((key) => {
-        const row = document.querySelector('.customer-details-table-row').cloneNode(true)
-
-        row.querySelector('.customer-details-table-property-name').innerHTML = (key.charAt(0).toUpperCase() + key.slice(1) + ':').replace(/-/g, " ")
-        row.querySelector('.customer-details-table-property-value').innerHTML = customerDetails[key]
-
-        row.classList.remove('d-none')
-        customerDetailsDiv.querySelector('.customer-details-table').appendChild(row)
+    const rowTemplate = customerDetailsDiv.querySelector('tr');
+    
+    Object.entries(customerDetails).forEach(([key, value]) => {
+        const row = rowTemplate.cloneNode(true);
+        
+        row.cells[0].textContent = key.replace(/-/g, ' ').replace(/^\w/, (c) => c.toUpperCase()) + ':';
+        row.cells[1].textContent = value;
+        row.classList.remove('d-none');
+        
+        customerDetailsDiv.firstElementChild.appendChild(row);
     });
 }
 
@@ -100,22 +102,18 @@ function populateProductTable(products, productTable, showBuyButton = true) {
 }
 
 (function initForms() {
-    const getFormInputs = () => Array.from(document.querySelectorAll('.form-input'));
-    const getInputsAsObject = () => Object.fromEntries(getFormInputs().map((input) => [input.id, input.value]))
-    const forms = document.querySelectorAll('.needs-validation');
+    const getFormValues = (form) => Object.fromEntries(new FormData(form).entries());
     const markInputValidity = (input, isValid) => { input.classList.toggle('is-valid', isValid); input.classList.toggle('is-invalid', !isValid); };
-    const stopFormSubmissionIfInvalid = (form, event) => (form.checkValidity()) ? saveInLocalStorage(form.id, getInputsAsObject()) : event.preventDefault();
+    const stopFormSubmissionIfInvalid = (form, event) => (form.checkValidity()) ? saveInLocalStorage(form.id, getFormValues(form)) : event.preventDefault();
     
-    Array.from(forms).forEach(form => {
+    [...document.getElementsByTagName('form')].forEach(form => {
         form.addEventListener('submit', (event) => { form.classList.add('was-validated'); stopFormSubmissionIfInvalid(form, event); });
         form.addEventListener('change', (event) => markInputValidity(event.target, event.target.checkValidity()));
     })
 })();
 
 (function initTables() {
-    const divs = document.querySelectorAll('div')
-
-    divs.forEach((div) => {
+    [...document.getElementsByTagName('div')].forEach((div) => {
         switch (div.id) {
             case 'product-table': getProductsFromAPI(div); break;
             case 'products-in-cart-table': populateProductTable([loadFromLocalStorage('product')], div, false); break;
