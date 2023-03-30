@@ -98,22 +98,18 @@ function populateProductTable(products, productTable, showBuyButton = true) {
 }
 
 (function initForms() {
-    const getFormInputs = () => Array.from(document.querySelectorAll('.form-input'));
-    const getInputsAsObject = () => Object.fromEntries(getFormInputs().map((input) => [input.id, input.value]))
-    const forms = document.querySelectorAll('.needs-validation');
+    const getFormValues = (form) => Object.fromEntries(new FormData(form).entries());
     const markInputValidity = (input, isValid) => { input.classList.toggle('is-valid', isValid); input.classList.toggle('is-invalid', !isValid); };
-    const stopFormSubmissionIfInvalid = (form, event) => (form.checkValidity()) ? saveInLocalStorage(form.id, getInputsAsObject()) : event.preventDefault();
+    const stopFormSubmissionIfInvalid = (form, event) => (form.checkValidity()) ? saveInLocalStorage(form.id, getFormValues(form)) : event.preventDefault();
     
-    Array.from(forms).forEach(form => {
+    [...document.getElementsByTagName('form')].forEach(form => {
         form.addEventListener('submit', (event) => { form.classList.add('was-validated'); stopFormSubmissionIfInvalid(form, event); });
         form.addEventListener('change', (event) => markInputValidity(event.target, event.target.checkValidity()));
     })
 })();
 
 (function initTables() {
-    const divs = document.querySelectorAll('div')
-
-    divs.forEach((div) => {
+    [...document.getElementsByTagName('div')].forEach((div) => {
         switch (div.id) {
             case 'product-table': getProductsFromAPI(div); break;
             case 'products-in-cart-table': populateProductTable([loadFromLocalStorage('product')], div, false); break;
