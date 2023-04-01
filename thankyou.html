@@ -78,18 +78,8 @@
                 </div>
             </div>
 
-            <div class="col">
-                <h3><br>Your details</h3><br>
-                <div id="customer-details">
-                    <table class="table">
-                        <tr class="d-none">
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            
+            <div id="customer-details-table"></div>
+
         </div>
     </div>
 
@@ -147,16 +137,51 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    <script type="x-tmpl-mustache" id="customer-details-table-template">
+    <div class="col">
+        <h3><br>Your details</h3><br>
+        <div id="customer-details">
+            <table class="table">
+                <tr>
+                    <td>Email:</td>
+                    <td>{{email}}</td>
+                </tr>
+                <tr>
+                    <td>Phone:</td>
+                    <td>{{phone}}</td>
+                </tr>
+                <tr>
+                    <td>Name:</td>
+                    <td>{{full-name}}</td>
+                </tr>
+                <tr>
+                    <td>Street and number:</td>
+                    <td>{{street-and-number}}</td>
+                </tr>
+                <tr>
+                    <td>Postal code:</td>
+                    <td>{{postal-code}}</td>
+                </tr>
+                <tr>
+                    <td>City:</td>
+                    <td>{{city}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
+<script src="script.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
 
 </body>
 

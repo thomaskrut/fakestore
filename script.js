@@ -20,18 +20,9 @@ function getProductsFromAPI(target) {
 const saveInLocalStorage = (name, object) => localStorage.setItem(name, JSON.stringify(object));
 const loadFromLocalStorage = (name) => JSON.parse(localStorage.getItem(name));
 
-function populateCustomerDetailsTable(customerDetails, customerDetailsDiv) {
-    const rowTemplate = customerDetailsDiv.querySelector('tr');
-    
-    Object.entries(customerDetails).forEach(([key, value]) => {
-        const row = rowTemplate.cloneNode(true);
-        
-        row.cells[0].textContent = key.replace(/-/g, ' ').replace(/^\w/, (c) => c.toUpperCase()) + ':';
-        row.cells[1].textContent = value;
-        row.classList.remove('d-none');
-        
-        customerDetailsDiv.firstElementChild.appendChild(row);
-    });
+function populateCustomerDetailsTable(customerDetails, customerDetailsTable) {
+    const template = document.getElementById('customer-details-table-template').innerHTML;
+    customerDetailsTable.innerHTML = Mustache.render(template, customerDetails);
 }
 
 function buyProduct(product) {
@@ -105,7 +96,7 @@ function populateProductTable(products, productTable, showBuyButton = true) {
         switch (div.id) {
             case 'product-table': getProductsFromAPI(div); break;
             case 'products-in-cart-table': populateProductTable([loadFromLocalStorage('product')], div, false); break;
-            case 'customer-details': populateCustomerDetailsTable(loadFromLocalStorage('customer-details'), div); break;
+            case 'customer-details-table': populateCustomerDetailsTable(loadFromLocalStorage('customer-details'), div); break;
         }
     })
 })();
