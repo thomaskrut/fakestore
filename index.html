@@ -40,71 +40,74 @@
 
     <div class="container">
         <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 g4 product-table-row" id="product-table">
-            <div class="col product-col d-none gy-4">
-
-                <div class="card shadow">
-
-                    <img src="no-image.png" alt="placerholder" class="product-table-image p-3 card-img-top">
-
-                    <div class="card-body">
-                        <div class="card-title product-title text-truncate"></div>
-                        <div class="card-text">
-                            <p class="category"></p>
-                            <p class="description text-truncate"></p>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="rating">
-                            <div class="rating-upper">
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                            </div>
-                            <div class="rating-lower">
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                            </div>
-                        </div>
-                        <p class="rating-text"></p>
-                        <sub><span class="price"></span></sub><sup><span class="decimals"></span></sup>
-                        <br><br>
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-dark rounded-pill py-2 btn-block btn-sm add-to-cart-button">BUY</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-
-
-
         </div>
     </div>
 
+    <footer class="bg-dark text-muted mt-3">
+        <div class="p-3 text-center">
+            &copy; Fake Store 2023
+        </div>
+    </footer>
 
+    <script type="x-tmpl-mustache" id="product-card-template">
+        <div class="col product-col gy-4">
+        <div class="card shadow">
 
-    <div class="modal fade" id="placeholder" tabindex="-1">
+<img src="{{image}}" alt="Image of {{title}}" class="product-table-image p-3 card-img-top" onclick="{{toggleModal}}">
+
+<div class="card-body" onclick="{{toggleModal}}">
+    <div class="card-title product-title text-truncate">{{title}}</div>
+    <div class="card-text">
+        <p class="category">{{category}}</p>
+        <p class="description text-truncate">{{description}}</p>
+    </div>
+</div>
+<div class="card-footer">
+    <div class="rating">
+        <div class="rating-upper" style="width: {{rating.width}}">
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+        </div>
+        <div class="rating-lower">
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+            <span>★</span>
+        </div>
+    </div>
+    <p class="rating-text">{{rating.text}}</p>
+    <sub><span class="price">{{price.whole}}</span></sub><sup><span class="decimals">{{price.decimals}}</span></sup>
+    <br><br>
+    <div class="d-grid gap-2">
+        <button class="btn btn-dark rounded-pill py-2 btn-block btn-sm add-to-cart-button" onclick="{{buyProduct}}">BUY</button>
+    </div>
+</div>
+
+</div>
+</div>
+    </script>
+
+    <script type="x-tmpl-mustache" id="product-modal-template">
+        <div class="modal fade" id="{{modalId}}" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title product-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title product-title" id="{{modalId}}">{{title}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="{{toggleModal}}"></button>
                 </div>
-                <img src="no-image.png" alt="placeholder" class="product-table-image p-5">
+                <img src="{{image}}" alt="Image of {{title}}" class="product-table-image p-5">
                 <div class="modal-body description">
-
+                    {{description}}
                 </div>
                 <div class="modal-footer d-block">
                     <div class="row align-items-baseline">
                         <div class="col">
                             <div class="rating">
-                                <div class="rating-upper">
+                                <div class="rating-upper" style="width: {{rating.width}}">
                                     <span>★</span>
                                     <span>★</span>
                                     <span>★</span>
@@ -119,14 +122,14 @@
                                     <span>★</span>
                                 </div>
                             </div>
-                            <p class="rating-text"></p>
+                            <p class="rating-text">{{rating.text}}</p>
 
                         </div>
                         <div class="col">
-                            <sub><span class="price"></span></sub><sup><span class="decimals"></span></sup>
+                            <sub><span class="price">{{price.whole}}</span></sub><sup><span class="decimals">{{price.decimals}}</span></sup>
                         </div>
                         <div class="col">
-                            <button class="btn btn-dark rounded-pill py-2 btn-block btn-sm add-to-cart-button">BUY</button>
+                            <button class="btn btn-dark rounded-pill py-2 btn-block btn-sm add-to-cart-button" onclick="{{buyProduct}}">BUY</button>
                         </div>
                     </div>
                 </div>
@@ -134,17 +137,9 @@
             </div>
         </div>
     </div>
+    </script>
 
-
-
-
-    <footer class="bg-dark text-muted mt-3">
-        <div class="p-3 text-center">
-            &copy; Fake Store 2023
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+    
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
@@ -154,6 +149,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
+    <script src="script.js"></script>
 
 </body>
 

@@ -9,7 +9,7 @@ function getProductsFromAPI(target) {
         requests[index].onreadystatechange = () => {
             if (requests[index].readyState === 4 && requests[index].status === 200) {
                 console.log("connected to " + url);
-                populateProductTable(JSON.parse(requests[index].response), target);
+                populateProductTable(JSON.parse(requests[index].response), target, true);
                 requests.forEach(req => req.abort());
             }
         }
@@ -30,64 +30,34 @@ function buyProduct(product) {
     window.location = 'order.html';
 }
 
-function populateProductTable(products, productTable, showBuyButton = true) {
+function populateProductTable(products, productTable, shouldBeAdjusted) {
+    const cardTemplate = document.getElementById('product-card-template').innerHTML;
+    const modalTemplate = document.getElementById('product-modal-template').innerHTML;
+
     products.forEach(p => {
-
-        const row = document.querySelector('.product-col').cloneNode(true)
-        const modal = document.querySelector('.modal').cloneNode(true)
-        modal.id = 'modal' + p.id;
-        modal.querySelector('.btn-close').addEventListener('click', () => {
-            $('#modal' + p.id).modal('toggle');
-        });
-
-        [row, modal].forEach(e => {
-            e.querySelector('.product-title').innerHTML = p.title;
-            e.querySelector('.description').innerHTML = p.description;
-            e.querySelector('.product-table-image').src = p.image;
-            e.querySelector('.product-table-image').alt = 'Image of ' + p.title;
-            e.querySelector('.rating-upper').style.width = p.rating.rate / 5 * 100 + "%"
-            e.querySelector('.rating-text').innerHTML = p.rating.rate + " stars (" + p.rating.count + " votes)"
-            e.querySelector('.price').innerHTML = "$" + p.price.toFixed(0)
-            e.querySelector('.decimals').innerHTML = (((p.price - Math.floor(p.price)) * 100) + "0").substring(0, 2);
-        })
-
-        row.querySelector('.card-body').addEventListener('click', () => {
-            $('#modal' + p.id).modal('toggle');
-        });
-
-        row.querySelector('.product-table-image').addEventListener('click', () => {
-            $('#modal' + p.id).modal('toggle');
-        });
-
-        row.querySelector('.category').innerHTML = p.category
-        
-
-        if (showBuyButton) {
-            [row, modal].forEach(e => {
-                e.querySelector('.add-to-cart-button').addEventListener("mousedown", () => buyProduct(p))
-            });
-        } else {
-            [row, modal].forEach(e => {
-                e.querySelector('.add-to-cart-button').classList.add('d-none')
-            });
-        }
-
-        row.classList.remove('d-none')
-        productTable.appendChild(row)
-        productTable.appendChild(modal);
-
+        if (shouldBeAdjusted) p = adjustProductForDisplay(p);
+        productTable.insertAdjacentHTML('beforeend', Mustache.render(cardTemplate, p) + Mustache.render(modalTemplate, p));
     });
+}
 
+function adjustProductForDisplay(product) {
+    product.modalId = "modal" + product.id;
+    product.rating.width = product.rating.rate / 5 * 100 + "%";
+    product.rating.text = product.rating.rate + " stars (" + product.rating.count + " votes)";
+    product.price = { whole: "$" + product.price.toFixed(0), decimals: product.price.toFixed(2).split('.')[1].substring(0, 2) };
+    product.toggleModal = "$('#" + product.modalId + "').modal('toggle');";
+    product.buyProduct = "buyProduct(" + JSON.stringify(product) + ")";
+    return product;
 }
 
 (function initForms() {
     const getFormValues = (form) => Object.fromEntries(new FormData(form).entries());
     const markInputValidity = (input, isValid) => { input.classList.toggle('is-valid', isValid); input.classList.toggle('is-invalid', !isValid); };
     const stopFormSubmissionIfInvalid = (form, event) => (form.checkValidity()) ? saveInLocalStorage(form.id, getFormValues(form)) : event.preventDefault();
-    
+
     [...document.getElementsByTagName('form')].forEach(form => {
         form.addEventListener('submit', (event) => { form.classList.add('was-validated'); stopFormSubmissionIfInvalid(form, event); });
-        form.addEventListener('change', (event) => markInputValidity(event.target, event.target.checkValidity()));
+        form.addEventListener('change', (event) => { markInputValidity(event.target, event.target.checkValidity())});
     })
 })();
 

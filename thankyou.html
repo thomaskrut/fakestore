@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 
 <head>
     <link href="style.css" rel="stylesheet">
@@ -9,7 +9,7 @@
     <title>Fake Store</title>
 </head>
 
-<body>
+<body class="d-flex flex-column h-100">
 
     <nav class="navbar sticky-top navbar-expand-sm navbar-dark bg-dark">
         <div class="container">
@@ -40,66 +40,37 @@
         <h1>Thank you for your order!</h1>
         <br>
         <div class="row row-cols-md-2 row-cols-sm-1 row-cols-1 product-table-row" id="products-in-cart-table">
-            <div class="col product-col d-none">
-                <h3><br>Ordered item</h3><br>
-                <div class="card shadow">
-
-                    <img src="no-image.png" alt="placeholder" class="product-table-image p-3 card-img-top">
-
-                    <div class="card-body">
-                        <div class="card-title product-title"></div>
-                        <div class="card-text">
-                            <p class="category"></p>
-                            <p class="description"></p>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="rating">
-                            <div class="rating-upper">
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                            </div>
-                            <div class="rating-lower">
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                            </div>
-                        </div>
-                        <p class="rating-text"></p>
-                        <sub><span class="price"></span></sub><sup><span class="decimals"></span></sup>
-                        <button class="btn btn-success add-to-cart-button">Buy!</button>
-                    </div>
-
-                </div>
-            </div>
-
+            
             <div id="customer-details-table"></div>
 
         </div>
     </div>
 
 
-    <div class="modal fade" id="placeholder" tabindex="-1">
+
+    <footer class="footer mt-auto bg-dark text-muted mt-3">
+        <div class="p-3 text-center">
+            &copy; Fake Store 2023
+        </div>
+    </footer>
+
+    <script type="x-tmpl-mustache" id="product-modal-template">
+        <div class="modal fade" id="{{modalId}}" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title product-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title product-title" id="{{modalId}}">{{title}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="{{toggleModal}}"></button>
                 </div>
-                <img src="no-image.png" alt="placeholder" class="product-table-image p-5">
+                <img src="{{image}}" alt="Image of {{title}}" class="product-table-image p-5">
                 <div class="modal-body description">
-
+                    {{description}}
                 </div>
                 <div class="modal-footer d-block">
                     <div class="row align-items-baseline">
                         <div class="col">
                             <div class="rating">
-                                <div class="rating-upper">
+                                <div class="rating-upper" style="width: {{rating.width}}">
                                     <span>★</span>
                                     <span>★</span>
                                     <span>★</span>
@@ -114,14 +85,11 @@
                                     <span>★</span>
                                 </div>
                             </div>
-                            <p class="rating-text"></p>
+                            <p class="rating-text">{{rating.text}}</p>
 
                         </div>
                         <div class="col">
-                            <sub><span class="price"></span></sub><sup><span class="decimals"></span></sup>
-                        </div>
-                        <div class="col">
-                            <button class="btn btn-success add-to-cart-button">Buy!</button>
+                            <sub><span class="price">{{price.whole}}</span></sub><sup><span class="decimals">{{price.decimals}}</span></sup>
                         </div>
                     </div>
                 </div>
@@ -129,13 +97,50 @@
             </div>
         </div>
     </div>
+    </script>
 
 
-    <footer class="bg-dark text-muted mt-3">
-        <div class="p-3 text-center">
-            &copy; Fake Store 2023
+</div>
+
+
+<script type="x-tmpl-mustache" id="product-card-template">
+    <div class="col product-col">
+            <h3><br>Ordered item</h3><br>
+            <div class="card shadow">
+
+                <img src="{{image}}" alt="" class="product-table-image p-3 card-img-top">
+
+                <div class="card-body">
+                    <div class="card-title product-title">{{title}}</div>
+                    <div class="card-text">
+                        <p class="category">{{category}}</p>
+                        <p class="description">{{description}}</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="rating">
+                        <div class="rating-upper" style="width: {{rating.width}}>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                        </div>
+                        <div class="rating-lower">
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                        </div>
+                    </div>
+                    <p class="rating-text">{{rating.text}}</p>
+                    <sub><span class="price">{{price.whole}}</span></sub><sup><span class="decimals">{{price.decimals}}</span></sup>
+                </div>
+
+            </div>
         </div>
-    </footer>
+</script>
 
     <script type="x-tmpl-mustache" id="customer-details-table-template">
     <div class="col">
