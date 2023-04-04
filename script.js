@@ -10,12 +10,21 @@ function getProductsFromAPI(target) {
             if (requests[index].readyState === 4 && requests[index].status === 200) {
                 console.log("connected to " + url);
                 populateProductTable(JSON.parse(requests[index].response), target, true);
+                populateCategoriesDropdown(JSON.parse(requests[index].response));
                 requests.forEach(req => req.abort());
             }
         }
     });
 
 }
+
+function populateCategoriesDropdown(products) {
+    const categories = [...new Set(products.map(p => p.category))];
+    const dropdown = document.getElementById('navbar-dropdown');
+    const template = document.getElementById('navbar-dropdown-template').innerHTML;
+    categories.forEach(c => dropdown.insertAdjacentHTML('beforeend', Mustache.render(template, { c })));
+}
+
 
 const saveInLocalStorage = (name, object) => localStorage.setItem(name, JSON.stringify(object));
 const loadFromLocalStorage = (name) => JSON.parse(localStorage.getItem(name));
@@ -34,6 +43,11 @@ function populateProductTable(products, productTable, shouldBeAdjusted) {
     const cardTemplate = document.getElementById('product-card-template').innerHTML;
     const modalTemplate = document.getElementById('product-modal-template').innerHTML;
 
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('category')) {
+            products = products.filter(p => p.category == urlParams.get('category'));
+    }
+    
     products.forEach(p => {
         if (shouldBeAdjusted) p = adjustProductForDisplay(p);
         productTable.insertAdjacentHTML('beforeend', Mustache.render(cardTemplate, p) + Mustache.render(modalTemplate, p));
