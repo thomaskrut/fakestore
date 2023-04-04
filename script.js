@@ -21,10 +21,13 @@ function getProductsFromAPI(target) {
 
 function populateCategoriesDropdown() {
     const categories = loadFromLocalStorage('categories');
-    if (categories == null) { setTimeout(populateCategoriesDropdown, 100); return; }
+    if (categories == null) { 
+        setTimeout(populateCategoriesDropdown, 100);
+        return;
+    }
     const dropdown = document.getElementById('navbar-dropdown');
     const template = document.getElementById('navbar-dropdown-template').innerHTML;
-    categories && categories.forEach(c => dropdown.insertAdjacentHTML('beforeend', Mustache.render(template, { c })));
+    categories.forEach(c => dropdown.insertAdjacentHTML('beforeend', Mustache.render(template, { c })));
 }
 
 
