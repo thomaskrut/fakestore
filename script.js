@@ -9,8 +9,8 @@ function getProductsFromAPI(target) {
         requests[index].onreadystatechange = () => {
             if (requests[index].readyState === 4 && requests[index].status === 200) {
                 console.log("connected to " + url);
-                populateProductTable(JSON.parse(requests[index].response), target, true);
-                populateCategoriesDropdown(JSON.parse(requests[index].response));
+                target && populateProductTable(JSON.parse(requests[index].response), target, true);
+                target || populateCategoriesDropdown(JSON.parse(requests[index].response));
                 requests.forEach(req => req.abort());
             }
         }
@@ -81,6 +81,7 @@ function adjustProductForDisplay(product) {
             case 'product-table': getProductsFromAPI(div); break;
             case 'products-in-cart-table': populateProductTable([loadFromLocalStorage('product')], div, false); break;
             case 'customer-details-table': populateCustomerDetailsTable(loadFromLocalStorage('customer-details'), div); break;
+            case 'navbar-dropdown': getProductsFromAPI(null); break;
         }
     })
 })();

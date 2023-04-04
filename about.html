@@ -26,6 +26,13 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="index.html">Browse</a>
+                       
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">Categories</a>
+                        <div class="dropdown-menu" id="navbar-dropdown">
+
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="about.html">About us</a>
@@ -38,8 +45,12 @@
             </div>
         </div>
     </nav>
+
+    <script type="x-tmpl-mustache" id="navbar-dropdown-template">
+        <a class="dropdown-item" href="index.html?category={{ c }}">{{ c }}</a>
+    </script>
     
-    <br><div class="container">
+    <br><div class="container mt-3" id="info">
 
     <p>Welcome to our website. We are a company that sells various items that most people probably don't need or want. Our products are not essential and don't offer much value, but we sell them anyway because we have to make a living somehow.</p>
 
@@ -60,6 +71,7 @@ If you are looking for something of value, you won't find it here. We don't beli
 </footer>
 
 <script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>

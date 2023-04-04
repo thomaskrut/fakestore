@@ -22,6 +22,13 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="index.html">Browse</a>
+                       
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">Categories</a>
+                        <div class="dropdown-menu" id="navbar-dropdown">
+
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="about.html">About us</a>
@@ -35,7 +42,11 @@
         </div>
     </nav>
 
-    <div class="container">
+    <script type="x-tmpl-mustache" id="navbar-dropdown-template">
+        <a class="dropdown-item" href="index.html?category={{ c }}">{{ c }}</a>
+    </script>
+
+    <div class="container pb-4">
         <br>
         <h1>Thank you for your order!</h1>
         <br>
