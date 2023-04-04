@@ -9,33 +9,34 @@ function getProductsFromAPI(target) {
         requests[index].onreadystatechange = () => {
             if (requests[index].readyState === 4 && requests[index].status === 200) {
                 console.log("connected to " + url);
-                populateProductTable(JSON.parse(requests[index].response), target, true);
+                populateProductTable(JSON.parse(requests[index].response), target);
                 requests.forEach(req => req.abort());
             }
         }
     });
-
 }
 
-const saveInLocalStorage = (name, object) => localStorage.setItem(name, JSON.stringify(object));
-const loadFromLocalStorage = (name) => JSON.parse(localStorage.getItem(name));
-
-function populateCustomerDetailsTable(customerDetails, customerDetailsTable) {
+function populateCustomerDetailsTable(customerDetailsTable) {
     const template = document.getElementById('customer-details-table-template').innerHTML;
-    customerDetailsTable.innerHTML = Mustache.render(template, customerDetails);
+    const urlParams = Object.fromEntries((new URLSearchParams(window.location.search)));
+    customerDetailsTable.innerHTML = Mustache.render(template, urlParams);
 }
 
-function buyProduct(product) {
-    saveInLocalStorage('product', product);
-    window.location = 'order.html';
+function buyProduct(productId) {
+    window.location = 'order.html?productid=' + productId;
 }
 
-function populateProductTable(products, productTable, shouldBeAdjusted) {
+function populateProductTable(products, productTable) {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('productid')) {
+        const productIdElement = document.getElementById('selected-product-id');
+        productIdElement && (productIdElement.value = urlParams.get('productid'));
+        products = products.filter(p => p.id == urlParams.get('productid'));
+    }
     const cardTemplate = document.getElementById('product-card-template').innerHTML;
     const modalTemplate = document.getElementById('product-modal-template').innerHTML;
 
-    products.forEach(p => {
-        if (shouldBeAdjusted) p = adjustProductForDisplay(p);
+    products.map(p => adjustProductForDisplay(p)).forEach(p => {
         productTable.insertAdjacentHTML('beforeend', Mustache.render(cardTemplate, p) + Mustache.render(modalTemplate, p));
     });
 }
@@ -46,18 +47,17 @@ function adjustProductForDisplay(product) {
     product.rating.text = product.rating.rate + " stars (" + product.rating.count + " votes)";
     product.price = { whole: "$" + product.price.toFixed(0), decimals: product.price.toFixed(2).split('.')[1].substring(0, 2) };
     product.toggleModal = "$('#" + product.modalId + "').modal('toggle');";
-    product.buyProduct = "buyProduct(" + JSON.stringify(product) + ")";
+    product.buyProduct = "buyProduct("  + product.id + ")";
     return product;
 }
 
 (function initForms() {
-    const getFormValues = (form) => Object.fromEntries(new FormData(form).entries());
     const markInputValidity = (input, isValid) => { input.classList.toggle('is-valid', isValid); input.classList.toggle('is-invalid', !isValid); };
-    const stopFormSubmissionIfInvalid = (form, event) => (form.checkValidity()) ? saveInLocalStorage(form.id, getFormValues(form)) : event.preventDefault();
+    const stopFormSubmissionIfInvalid = (form, event) => { if (!form.checkValidity()) event.preventDefault(); }
 
     [...document.getElementsByTagName('form')].forEach(form => {
         form.addEventListener('submit', (event) => { form.classList.add('was-validated'); stopFormSubmissionIfInvalid(form, event); });
-        form.addEventListener('change', (event) => { markInputValidity(event.target, event.target.checkValidity())});
+        form.addEventListener('change', (event) => { markInputValidity(event.target, event.target.checkValidity()) });
     })
 })();
 
@@ -65,8 +65,8 @@ function adjustProductForDisplay(product) {
     [...document.getElementsByTagName('div')].forEach((div) => {
         switch (div.id) {
             case 'product-table': getProductsFromAPI(div); break;
-            case 'products-in-cart-table': populateProductTable([loadFromLocalStorage('product')], div, false); break;
-            case 'customer-details-table': populateCustomerDetailsTable(loadFromLocalStorage('customer-details'), div); break;
+            case 'products-in-cart-table': getProductsFromAPI(div); break;
+            case 'customer-details-table': populateCustomerDetailsTable(div); break;
         }
     })
 })();

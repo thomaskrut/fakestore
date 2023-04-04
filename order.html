@@ -42,7 +42,7 @@
             
             <div class="col customer-details-cell">
                 <h3><br>Your details</h3><br>
-                <form class="row row-cols-2 needs-validation" id="customer-details" action="/thankyou.html" novalidate>
+                <form class="row row-cols-2 needs-validation" id="customer-details" method="GET" action="/thankyou.html" novalidate>
                     <div class="col">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control form-input" name="email" value="" pattern="^(?=.{1,50}$)[^@]+@[^@]+$" required>
@@ -87,6 +87,7 @@
                         </div>
                     </div>
                     <div class="d-grid gap-2">
+                        <input type="text" id="selected-product-id" class="d-none" name="productid" value="test">
                         <button class="btn btn-dark text-nowrap mt-3 rounded-pill py-2 btn-block btn-sm add-to-cart-button" type="submit" id="orderButton">SUBMIT ORDER</button>
                     </div>
                 </form>
