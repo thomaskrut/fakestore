@@ -9,8 +9,9 @@ function getProductsFromAPI(target) {
         requests[index].onreadystatechange = () => {
             if (requests[index].readyState === 4 && requests[index].status === 200) {
                 console.log("connected to " + url);
-                target && populateProductTable(JSON.parse(requests[index].response), target, true);
-                target || populateCategoriesDropdown(JSON.parse(requests[index].response));
+                const products = JSON.parse(requests[index].response);
+                populateProductTable(products, target, true);
+                saveInLocalStorage('categories', Array.from(new Set((products.map(p => p.category)))));
                 requests.forEach(req => req.abort());
             }
         }
@@ -18,11 +19,12 @@ function getProductsFromAPI(target) {
 
 }
 
-function populateCategoriesDropdown(products) {
-    const categories = [...new Set(products.map(p => p.category))];
+function populateCategoriesDropdown() {
+    const categories = loadFromLocalStorage('categories');
+    if (categories == null) { setTimeout(populateCategoriesDropdown, 100); return; }
     const dropdown = document.getElementById('navbar-dropdown');
     const template = document.getElementById('navbar-dropdown-template').innerHTML;
-    categories.forEach(c => dropdown.insertAdjacentHTML('beforeend', Mustache.render(template, { c })));
+    categories && categories.forEach(c => dropdown.insertAdjacentHTML('beforeend', Mustache.render(template, { c })));
 }
 
 
@@ -81,7 +83,7 @@ function adjustProductForDisplay(product) {
             case 'product-table': getProductsFromAPI(div); break;
             case 'products-in-cart-table': populateProductTable([loadFromLocalStorage('product')], div, false); break;
             case 'customer-details-table': populateCustomerDetailsTable(loadFromLocalStorage('customer-details'), div); break;
-            case 'navbar-dropdown': getProductsFromAPI(null); break;
+            case 'navbar-dropdown': populateCategoriesDropdown(); break;
         }
     })
 })();
